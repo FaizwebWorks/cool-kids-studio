@@ -122,7 +122,7 @@ export default function HorizontalServices() {
               </div>
 
               <div className="w-1/2 pl-8 lg:pl-16 flex flex-col justify-center">
-                <span className="text-9xl md:text-[12rem] font-heading text-border font-bold leading-none">
+                <span className="text-9xl md:text-[12rem] font-heading text-border font-medium leading-none">
                   {i + 1}
                 </span>
 
