@@ -52,11 +52,12 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-transparent pointer-events-none">
+      <nav className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-transparent">
         
         {/* LEFT: MENU ICON */}
-        <div 
-          className="flex flex-col gap-1.5 md:gap-2 cursor-pointer group z-[110] pointer-events-auto scale-90 md:scale-100"
+        <button 
+          type="button"
+          className="flex flex-col w-fit justify-center gap-1.5 md:gap-2 cursor-pointer group z-[110] scale-90 md:scale-100 p-2 -ml-2 -mt-2 h-fit"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <motion.div 
@@ -67,7 +68,7 @@ const Navbar = () => {
             animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
             className="w-10 md:w-12 h-0.5 bg-primary origin-center will-change-transform"
           />
-        </div>
+        </button>
 
         {/* CENTER: LOGO */}
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
