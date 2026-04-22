@@ -81,29 +81,23 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="h-fit sm:min-h-screen w-full flex flex-col items-start sm:items-center justify-center text-left sm:text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
+    <section className="h-full w-full flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
 
-      <div className="hidden sm:block space-y-1 md:space-y-4 max-w-[95vw] pointer-events-auto">
+      <div className="space-y-1 md:space-y-4 max-w-[95vw] pointer-events-auto">
         {renderedContent}
-      </div>
-
-      <div className="sm:hidden w-full pointer-events-auto pt-20">
-        <div className="text-[2.5rem] font-bold font-heading text-primary/90 tracking-tight uppercase leading-[1.1]">
-          From tiny giggles to big milestones captured before it slips away.
-        </div>
       </div>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-        className="mt-8 sm:mt-8 text-left sm:text-center text-text-secondary max-w-sm md:max-w-xl text-sm sm:text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70 will-change-transform"
+        className="mt-8 text-center text-text-secondary max-w-sm md:max-w-xl text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70 will-change-transform"
       >
         Babies grow. Kids get hyper. Weddings get emotional. <br className="hidden md:block" />
         Good thing we're there to freeze it all before it disappears.
       </motion.p>
 
-      <div className="flex flex-col items-start sm:items-center sm:flex-row gap-4 md:gap-5 mt-8 sm:mt-14 pointer-events-auto w-full sm:w-auto px-0 sm:px-0">
+      <div className="flex flex-col items-center sm:flex-row gap-4 md:gap-5 mt-8 sm:mt-14 pointer-events-auto w-full sm:w-auto px-0 sm:px-0">
         <Button text="Book Your Session" primary />
       </div>
     </section>

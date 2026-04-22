@@ -1,8 +1,5 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const imageData = [
   {
@@ -44,23 +41,23 @@ export default function ScrollGallery() {
     const imagesRef = useRef([]);
 
     useEffect(() => {
-        // 🚀 Use gsap.context for precise memory management and buttery smooth cleanup
         const ctx = gsap.context(() => {
             imagesRef.current.forEach((el, i) => {
                 if (!el) return;
 
-                const speed = imageData[i].speed;
-                // Responsive vertical travel
-                const travel = window.innerWidth < 768 ? speed * 0.6 : speed;
-
                 gsap.to(el, {
-                    y: -travel - 400,
+                    y: () => {
+                        const speed = imageData[i].speed;
+                        const travel = window.innerWidth < 768 ? speed * 0.6 : speed;
+                        return -travel - 400;
+                    },
                     ease: "none",
                     scrollTrigger: {
                         trigger: containerRef.current,
                         start: "top top",
                         end: "bottom bottom",
                         scrub: 1.5,
+                        invalidateOnRefresh: true,
                     },
                 });
             });

@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "./Button";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
@@ -41,24 +38,44 @@ const services = [
 export default function HorizontalServices() {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
+  const titleRef = useRef(null);
 
   useEffect(() => {
-    if (window.innerWidth < 768) return;
-
     const ctx = gsap.context(() => {
-      const totalSlides = services.length;
+      // Title Animation
+      if (titleRef.current) {
+        gsap.from(titleRef.current.querySelectorAll("h2, p"), {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 85%",
+          },
+        });
+      }
 
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: `+=${window.innerWidth * (totalSlides - 1)}`,
-        pin: true,
-        scrub: 5,
-        animation: gsap.to(containerRef.current, {
-          x: -window.innerWidth * (totalSlides - 1),
-          ease: "power2.out",
-        }),
-      });
+      // Horizontal Scroll (Desktop Only)
+      if (window.innerWidth >= 768) {
+        const getScrollAmount = () => {
+          return containerRef.current.scrollWidth - window.innerWidth;
+        };
+
+        gsap.to(containerRef.current, {
+          x: () => -getScrollAmount(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${getScrollAmount()}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -67,7 +84,7 @@ export default function HorizontalServices() {
   return (
     <>
       {/* 🔥 SECTION TITLE */}
-      <div className="hidden md:block text-center py-24 bg-bg">
+      <div ref={titleRef} className="hidden md:block text-center py-24 bg-bg">
         <h2 className="text-6xl font-semibold font-heading text-primary">
           Our Services
         </h2>

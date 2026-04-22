@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import stats from "../data/stats";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Stats() {
   const sectionRef = useRef(null);
@@ -11,34 +8,42 @@ export default function Stats() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      numberRefs.current.forEach((el, i) => {
+      // Entry animation for stats items
+      gsap.from(sectionRef.current.querySelectorAll('.stat-item'), {
+        y: 60,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 85%",
+        }
+      });
+
+      stats.forEach((stat, i) => {
+        const el = numberRefs.current[i];
         if (!el) return;
         
-        const target = parseFloat(stats[i].number);
-        const isDecimal = target % 1 !== 0;
-        const suffix = stats[i].number.replace(/[\d.,]/g, "");
+        const targetValue = parseFloat(stat.number.replace(/,/g, ""));
+        const suffix = stat.number.replace(/[\d.,]/g, "");
+        const isDecimal = stat.number.includes(".");
 
-        gsap.fromTo(
-          el,
-          { innerText: 0 },
-          {
-            innerText: target,
-            duration: 2,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              toggleActions: "play none none none",
-            },
-            snap: { innerText: isDecimal ? 0.1 : 1 },
-            onUpdate: function () {
-              const current = parseFloat(this.targets()[0].innerText);
-              el.innerText = isDecimal 
-                ? current.toFixed(1) + suffix 
-                : Math.round(current) + suffix;
-            },
-          }
-        );
+        const obj = { value: 0 };
+        gsap.to(obj, {
+          value: targetValue,
+          duration: 2.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+          onUpdate: () => {
+            el.innerText = isDecimal 
+              ? obj.value.toFixed(1) + suffix 
+              : Math.floor(obj.value).toLocaleString() + suffix;
+          },
+        });
       });
     }, sectionRef);
 
@@ -58,7 +63,7 @@ export default function Stats() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="text-center group"
+              className="text-center group stat-item"
             >
               <div 
                 ref={(el) => (numberRefs.current[index] = el)}
