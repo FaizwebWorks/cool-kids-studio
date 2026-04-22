@@ -1,14 +1,11 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import Button from "./Button";
-// import ScrollGallery from "./ScrollGallery";
 
 const textLines = [
   "FROM TINY [giggles] TO BIG [milestones]",
   "CAPTURED BEFORE IT [slips] AWAY",
 ];
-
-// const mobileLine = "From tiny giggles to big milestones captured before it slips away";
 
 const imageMap = {
   giggles: "/images/baby-laughing.webp",
@@ -16,7 +13,6 @@ const imageMap = {
   slips: "/images/running-kid.webp",
 };
 
-// Optimized spring setting for "buttery" feel
 const springTransition = (delay) => ({
   type: "spring",
   stiffness: 40,
@@ -84,15 +80,15 @@ export default function Hero() {
     });
   }, []);
 
-return (
-    <section className=" h-fit sm:min-h-screen w-full flex flex-col items-start sm:items-center justify-center text-left sm:text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
-      
+  return (
+    <section className="h-fit sm:min-h-screen w-full flex flex-col items-start sm:items-center justify-center text-left sm:text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
+
       <div className="hidden sm:block space-y-1 md:space-y-4 max-w-[95vw] pointer-events-auto">
         {renderedContent}
       </div>
 
       <div className="sm:hidden w-full pointer-events-auto pt-20">
-        <div className="text-[3rem] font-bold font-heading text-primary/90 tracking-tight uppercase leading-[1.1]">
+        <div className="text-[2.5rem] font-bold font-heading text-primary/90 tracking-tight uppercase leading-[1.1]">
           From tiny giggles to big milestones captured before it slips away.
         </div>
       </div>
@@ -110,10 +106,6 @@ return (
       <div className="flex flex-col items-start sm:items-center sm:flex-row gap-4 md:gap-5 mt-8 sm:mt-14 pointer-events-auto w-full sm:w-auto px-0 sm:px-0">
         <Button text="Book Your Session" primary />
       </div>
-
-      {/* <div className="hidden sm:block">
-        <ScrollGallery />
-      </div> */}
     </section>
   );
 }
