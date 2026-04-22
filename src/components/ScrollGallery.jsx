@@ -8,7 +8,7 @@ const imageData = [
   {
     // Top Left
     src: "img1.webp",
-    className: "w-40 h-40 md:w-56 md:h-56 rounded-[30px]",
+    className: "w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 rounded-[20px] md:rounded-[30px]",
     top: "96vh",
     left: "5%",
     speed: 400,
@@ -16,7 +16,7 @@ const imageData = [
   {
     // Top Right
     src: "img2.webp",
-    className: "w-44 h-32 md:w-64 md:h-44 rounded-[25px]",
+    className: "w-36 h-28 sm:w-44 sm:h-32 md:w-64 md:h-44 rounded-[18px] md:rounded-[25px]",
     top: "100vh",
     left: "75%",
     speed: 650,
@@ -24,7 +24,7 @@ const imageData = [
   {
     // Bottom Left
     src: "img3.webp",
-    className: "w-44 h-32 md:w-64 md:h-[250px] rounded-[25px]",
+    className: "w-36 h-28 sm:w-44 sm:h-32 md:w-64 md:h-[250px] rounded-[18px] md:rounded-[25px]",
     top: "180vh",
     left: "10%",
     speed: 900,
@@ -32,7 +32,7 @@ const imageData = [
   {
     // Bottom Right
     src: "img4.webp",
-    className: "w-36 h-42 md:w-52 md:h-[300px] rounded-[30px]",
+    className: "w-32 h-40 sm:w-36 sm:h-42 md:w-52 md:h-[300px] rounded-[20px] md:rounded-[30px]",
     top: "150vh",
     left: "72%",
     speed: 350,
@@ -50,34 +50,36 @@ export default function ScrollGallery() {
                 if (!el) return;
 
                 const speed = imageData[i].speed;
+                // Responsive vertical travel
+                const travel = window.innerWidth < 768 ? speed * 0.6 : speed;
 
                 gsap.to(el, {
-                    y: -speed - 400,
-                    ease: "none", // Linear parallax is usually smoother for scrubbing
+                    y: -travel - 400,
+                    ease: "none",
                     scrollTrigger: {
                         trigger: containerRef.current,
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 1.5, // High scrub for fluid, buttery motion
+                        scrub: 1.5,
                     },
                 });
             });
         }, containerRef);
 
-        return () => ctx.revert(); // Cleanup on unmount
+        return () => ctx.revert();
     }, []);
 
     return (
         <section
             ref={containerRef}
-            className="relative h-[200vh] w-full bg-transparent overflow-visible pointer-events-none"
+            className="relative h-[250vh] md:h-[200vh] w-full bg-transparent overflow-visible pointer-events-none"
         >
-            <div className="relative w-full h-full max-w-[1400px] mx-auto overflow-visible">
+            <div className="relative w-full h-full max-w-[1400px] mx-auto overflow-visible px-4">
                 {imageData.map((data, i) => (
                     <div
                         key={i}
                         ref={(el) => (imagesRef.current[i] = el)}
-                        className={`absolute ${data.className} shadow-xl pointer-events-auto overflow-hidden bg-bg/10 backdrop-blur-sm will-change-transform`}
+                        className={`absolute ${data.className} shadow-lg md:shadow-xl pointer-events-auto overflow-hidden bg-bg/10 backdrop-blur-sm will-change-transform`}
                         style={{
                             left: data.left,
                             top: data.top,

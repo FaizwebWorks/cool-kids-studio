@@ -82,10 +82,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="h-screen w-full flex flex-col items-center justify-center text-center px-6 relative overflow-hidden pointer-events-none bg-bg">
+    <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
       
       {/* MAIN HEADING */}
-      <div className="space-y-2 md:space-y-4 max-w-[95vw] pointer-events-auto">
+      <div className="space-y-1 md:space-y-4 max-w-[95vw] pointer-events-auto">
         {renderedContent}
       </div>
 
@@ -94,14 +94,14 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-        className="mt-8 text-text-secondary max-w-xl text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70 will-change-transform"
+        className="mt-6 md:mt-8 text-text-secondary max-w-sm md:max-w-xl text-xs sm:text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70 will-change-transform"
       >
         Babies grow. Kids get hyper. Weddings get emotional. <br className="hidden md:block" />
         Good thing we’re there to freeze it all before it disappears.
       </motion.p>
 
       {/* CTA BUTTONS */}
-      <div className="flex flex-col sm:flex-row gap-5 mt-14 pointer-events-auto">
+      <div className="flex flex-col sm:flex-row gap-4 md:gap-5 mt-10 md:mt-14 pointer-events-auto w-full sm:w-auto px-10 sm:px-0">
         <Button text="Book Your Session" primary />
       </div>
     </section>

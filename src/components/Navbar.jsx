@@ -52,32 +52,32 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full px-8 py-6 flex items-center justify-between z-[110] bg-transparent pointer-events-none">
+      <nav className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-transparent pointer-events-none">
         
         {/* LEFT: MENU ICON */}
         <div 
-          className="flex flex-col gap-[8px] cursor-pointer group z-[120] pointer-events-auto"
+          className="flex flex-col gap-1.5 md:gap-2 cursor-pointer group z-[110] pointer-events-auto scale-90 md:scale-100"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <motion.div 
             animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
-            className="w-12 h-[2px] bg-primary origin-center will-change-transform"
+            className="w-10 md:w-12 h-0.5 bg-primary origin-center will-change-transform"
           />
           <motion.div 
             animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
-            className="w-12 h-[2px] bg-primary origin-center will-change-transform"
+            className="w-10 md:w-12 h-0.5 bg-primary origin-center will-change-transform"
           />
         </div>
 
         {/* CENTER: LOGO */}
-        <div className="absolute left-1/2 -translate-x-1/2 z-[120]">
-          <span className="text-2xl md:text-3xl font-bold tracking-tight text-primary">
+        <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
+          <span className="text-xl md:text-3xl font-bold tracking-tight text-primary">
             The Cool Kids.
           </span>
         </div>
 
         {/* RIGHT: LOCATION & TIME */}
-        <div className="hidden md:flex flex-col items-end text-xs md:text-sm font-medium tracking-wider text-primary z-[120]">
+        <div className="flex flex-col items-end text-[10px] md:text-sm font-medium tracking-wider leading-3 md:leading-4 text-primary z-[110]">
           <span>GUJARAT, INDIA</span>
           <span className="opacity-60">{time}</span>
         </div>
@@ -91,10 +91,10 @@ const Navbar = () => {
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 bg-bg z-[100] flex flex-col md:flex-row items-center px-10 md:px-20 pt-32 pb-10 overflow-y-auto will-change-transform"
+            className="fixed inset-0 bg-bg z-[50] flex flex-col md:flex-row items-start justify-between px-6 md:px-20 pt-24 md:pt-32 pb-10 overflow-y-auto will-change-transform"
           >
             {/* LEFT SIDE: NAV LINKS */}
-            <div className="w-full md:w-1/2 flex flex-col gap-2 md:gap-4">
+            <div className="w-full md:w-1/2 flex flex-col gap-1 md:gap-4 order-1 mt-4 md:mt-0">
               {navLinks.map((link, i) => (
                 <div
                   key={link}
@@ -102,7 +102,7 @@ const Navbar = () => {
                 >
                   <a 
                     href="#" 
-                    className="relative text-4xl md:text-6xl font-bold font-heading text-primary inline-block px-4 py-2 z-10 transition-colors duration-300"
+                    className="relative text-5xl sm:text-5xl md:text-6xl font-bold font-heading text-primary inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
                   >
                     {/* HOVER BACKGROUND */}
                     <span className="absolute inset-0 bg-accent -z-10 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.76,0,0.24,1] will-change-transform"></span>
@@ -113,11 +113,11 @@ const Navbar = () => {
             </div>
 
             {/* RIGHT SIDE: IMAGE & CONTACT */}
-            <div className="w-full md:w-1/2 flex flex-col items-center md:items-end mt-10 md:mt-0 gap-6 md:gap-10">
+            <div className="w-full md:w-1/2 flex flex-col items-center md:items-end order-2 gap-6 md:gap-10">
               {/* FEATURED IMAGE WITH FRAME */}
-              <div className="w-full max-w-sm md:max-w-md p-2 md:p-2.5 bg-[#E2E2E2] rounded-3xl md:rounded-3xl shadow-sm">
+              <div className="w-full sm:max-w-sm md:max-w-md p-2 md:p-2.5 bg-[#E2E2E2] rounded-2xl md:rounded-3xl shadow-sm">
                 <div 
-                  className="w-full aspect-[16/9] rounded-[1.2rem] md:rounded-2xl overflow-hidden"
+                  className="w-full aspect-[16/9] rounded-xl md:rounded-2xl overflow-hidden"
                 >
                   <img 
                     src="/images/about.webp" 
@@ -128,23 +128,23 @@ const Navbar = () => {
               </div>
 
               {/* CONTACT & SOCIALS */}
-              <div className="flex flex-col items-center md:items-end gap-6 text-center md:text-right">
+              <div className="flex flex-col items-center md:items-end gap-4 md:gap-6 text-center md:text-right">
                 <div className="flex flex-col items-center md:items-end">
-                  <span className="text-text-secondary text-sm md:text-lg opacity-60 font-medium">(239) 555-0108</span>
-                  <a href="mailto:HELLO@STORYPIXEL.COM" className="text-xl md:text-3xl font-bold text-primary hover:opacity-70 transition-opacity uppercase">
-                    HELLO@STORYPIXEL.COM
+                  <span className="text-text-secondary text-xs md:text-lg opacity-60 font-medium">(239) 555-0108</span>
+                  <a href="mailto:hello@coolkids.com" className="text-lg md:text-3xl font-bold text-primary hover:opacity-70 transition-opacity uppercase">
+                    HELLO@COOLKIDS.COM
                   </a>
                 </div>
 
                 {/* SOCIAL ICONS */}
-                <div className="flex gap-4">
+                <div className="flex gap-3 md:gap-4">
                   {[FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo].map((Icon, i) => (
                     <motion.div
                       key={i}
                       whileHover={{ y: -5 }}
-                      className="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary hover:text-bg transition-colors duration-300 will-change-transform"
+                      className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary hover:text-bg transition-colors duration-300 will-change-transform"
                     >
-                      <Icon size={20} weight="fill" />
+                      <Icon size={18} weight="fill" />
                     </motion.div>
                   ))}
                 </div>
