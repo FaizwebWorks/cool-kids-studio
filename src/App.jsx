@@ -3,6 +3,8 @@ import Hero from './components/Hero'
 import ScrollGallery from './components/ScrollGallery'
 import Navbar from './components/Navbar'
 import Lenis from 'lenis'
+import ServicesSection from './components/ServicesSection'
+import HorizontalServices from './components/HorizontalServices'
 
 const App = () => {
   useEffect(() => {
@@ -27,7 +29,7 @@ const App = () => {
   return (
     <main className="bg-bg relative min-h-screen">
       <Navbar />
-      
+
       {/* Hero stays fixed in the background */}
       <div className="fixed top-0 left-0 w-full h-screen z-0">
         <Hero />
@@ -36,6 +38,13 @@ const App = () => {
       {/* Scrollable area for images - transparent so hero is visible */}
       <div className="relative z-10 pointer-events-none">
         <ScrollGallery />
+      </div>
+      {/* <div className="relative z-20">
+        <ServicesSection />
+      </div> */}
+      <div className="relative z-20">
+        <HorizontalServices />
+        <ServicesSection />
       </div>
     </main>
   )

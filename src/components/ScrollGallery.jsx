@@ -72,7 +72,7 @@ export default function ScrollGallery() {
     return (
         <section
             ref={containerRef}
-            className="relative h-[250vh] md:h-[200vh] w-full bg-transparent overflow-visible pointer-events-none"
+            className="relative md:h-[180vh] w-full bg-transparent overflow-visible pointer-events-none"
         >
             <div className="relative w-full h-full max-w-[1400px] mx-auto overflow-visible px-4">
                 {imageData.map((data, i) => (
