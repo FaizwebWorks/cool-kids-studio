@@ -72,7 +72,7 @@ const Navbar = () => {
 
         {/* CENTER: LOGO */}
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
-          <span className="text-xl md:text-3xl font-bold tracking-tight text-primary">
+          <span className="text-xl md:text-3xl font-semibold tracking-tight text-primary">
             The Cool Kids.
           </span>
         </div>
@@ -103,7 +103,7 @@ const Navbar = () => {
                 >
                   <a 
                     href="#" 
-                    className="relative text-5xl sm:text-5xl md:text-6xl font-bold font-heading text-primary inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
+                    className="relative text-5xl sm:text-5xl md:text-6xl font-semibold font-heading text-primary/95 inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
                   >
                     {/* HOVER BACKGROUND */}
                     <span className="absolute inset-0 bg-accent -z-10 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.76,0,0.24,1] will-change-transform"></span>

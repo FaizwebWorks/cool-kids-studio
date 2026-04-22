@@ -74,8 +74,8 @@ export default function Stats() {
 
       <div className="container mx-auto px-6 relative">
         <div className="text-center mb-24 md:mb-32">
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-heading font-medium text-primary leading-tight">
-            Trust the <span className="italic tracking-tighter font-medium text-accent">Numbers</span>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-heading text-primary leading-tight">
+            Trust the <span className="italic tracking-tighter text-accent">Numbers</span>
           </h2>
         </div>
 
@@ -93,12 +93,12 @@ export default function Stats() {
 
                 <div 
                   ref={(el) => (numberRefs.current[index] = el)}
-                  className="text-5xl md:text-7xl lg:text-8xl font-heading text-primary font-bold group-hover:scale-110 transition-transform duration-500"
+                  className="text-5xl md:text-7xl lg:text-8xl font-heading text-primary group-hover:scale-110 transition-transform duration-500"
                 >
                   0
                 </div>
 
-                <div className="mt-6 text-sm md:text-base lg:text-lg text-text-secondary font-bold tracking-widest uppercase">
+                <div className="mt-6 text-sm md:text-base lg:text-lg text-text-secondary tracking-tight">
                   {stat.label}
                 </div>
 

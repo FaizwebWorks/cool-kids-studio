@@ -1,10 +1,10 @@
 const stats = [
   {
-    number: "500+",
+    number: "499+",
     label: "Happy Families",
   },
   {
-    number: "1,000+",
+    number: "999+",
     label: "Sessions Completed",
   },
   {
@@ -12,7 +12,7 @@ const stats = [
     label: "Years of Experience",
   },
   {
-    number: "100%",
+    number: "99%",
     label: "Edited & Delivered on Time",
   },
 ];

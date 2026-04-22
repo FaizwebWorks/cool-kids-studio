@@ -10,32 +10,39 @@ import HorizontalServices from './components/HorizontalServices'
 import Stats from './components/Stats'
 import HowItWorks from './components/HowItWorks'
 
-// Register ScrollTrigger globally
+// Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2, // Reduced duration for better responsiveness with GSAP
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      touchMultiplier: 2, // Better for mobile response
     });
 
-    // Sync ScrollTrigger with Lenis
+    // Mandatory: Update ScrollTrigger on Lenis scroll
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Add Lenis to GSAP ticker
-    const update = (time) => {
+    // Synchronize GSAP with Lenis
+    gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(update);
+    });
 
     // Disable lag smoothing for better sync
     gsap.ticker.lagSmoothing(0);
 
+    // Final refresh after everything is loaded
+    window.onload = () => {
+      ScrollTrigger.refresh();
+    };
+
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(update);
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
     };
   }, []);
 
@@ -43,17 +50,14 @@ const App = () => {
     <main className="bg-bg relative min-h-screen">
       <Navbar />
 
-      {/* DESKTOP HERO: stays fixed in the background */}
       <div className="hidden md:block fixed top-0 left-0 w-full h-screen z-0">
         <Hero />
       </div>
 
-      {/* MOBILE HERO: stays in document flow */}
       <div className="md:hidden relative z-10">
         <MobileHero />
       </div>
 
-      {/* Scrollable area for images - transparent so hero is visible */}
       <div className="hidden md:block relative z-10 pointer-events-none">
         <ScrollGallery />
       </div>

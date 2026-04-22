@@ -64,7 +64,7 @@ export default function Hero() {
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={springTransition(currentStagger * 0.02 + lineIdx * 0.15)}
-              className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] font-bold font-heading text-primary inline-block tracking-tight uppercase will-change-transform"
+              className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] font-semibold font-heading text-primary inline-block tracking-tight uppercase will-change-transform"
             >
               {char === " " ? "\u00A0" : char}
             </motion.span>
@@ -91,7 +91,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-        className="mt-8 text-center text-text-secondary max-w-sm md:max-w-xl text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70 will-change-transform"
+        className="mt-8 text-center text-text-secondary max-w-sm md:max-w-xl text-sm md:text-lg font-normal leading-relaxed opacity-70 will-change-transform"
       >
         Babies grow. Kids get hyper. Weddings get emotional. <br className="hidden md:block" />
         Good thing we're there to freeze it all before it disappears.

@@ -16,7 +16,7 @@ export default function Button({ text, primary, onClick }) {
         }`}
     >
       {/* TEXT CONTAINER */}
-      <span className="relative flex overflow-hidden font-semibold text-base leading-none">
+      <span className="relative flex overflow-hidden font-medium text-base leading-none">
         {characters.map((char, i) => (
           <span key={i} className="relative inline-block h-[1.2em] overflow-hidden">
             
