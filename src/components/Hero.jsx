@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import Button from "./Button";
 
@@ -12,82 +13,88 @@ const imageMap = {
   slips: "/images/running-kid.webp",
 };
 
+// Optimized spring setting for "buttery" feel
+const springTransition = (delay) => ({
+  type: "spring",
+  stiffness: 40,
+  damping: 15,
+  mass: 0.8,
+  delay: delay,
+});
+
 export default function Hero() {
-  const renderLine = (line, lineIdx) => {
-    const parts = line.split(/(\[.*?\])/);
-    let staggerIndex = 0;
+  const renderedContent = useMemo(() => {
+    return textLines.map((line, lineIdx) => {
+      const parts = line.split(/(\[.*?\])/);
+      let staggerIndex = 0;
 
-    return parts.map((part, partIdx) => {
-      if (part.startsWith("[") && part.endsWith("]")) {
-        const key = part.slice(1, -1).toLowerCase();
-        const imgSrc = imageMap[key];
-        const currentStagger = staggerIndex;
-        staggerIndex += 4; // Optimized stagger for smoother feel
+      const elements = parts.map((part, partIdx) => {
+        if (part.startsWith("[") && part.endsWith("]")) {
+          const key = part.slice(1, -1).toLowerCase();
+          const imgSrc = imageMap[key];
+          const currentStagger = staggerIndex;
+          staggerIndex += 5;
 
-        if (imgSrc) {
+          if (imgSrc) {
+            return (
+              <motion.div
+                key={partIdx}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={springTransition(currentStagger * 0.02 + lineIdx * 0.15)}
+                className="inline-block mx-1 md:mx-2 align-middle will-change-transform"
+              >
+                <img
+                  src={imgSrc}
+                  alt={key}
+                  loading="eager"
+                  className="w-16 h-10 md:w-28 md:h-16 object-cover rounded-xl shadow-sm hover:scale-105 transition-transform duration-300 pointer-events-auto"
+                />
+              </motion.div>
+            );
+          }
+        }
+
+        const chars = Array.from(part);
+        return chars.map((char, charIdx) => {
+          const currentStagger = staggerIndex;
+          staggerIndex++;
           return (
-            <motion.div
-              key={partIdx}
+            <motion.span
+              key={`${partIdx}-${charIdx}`}
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{
-                delay: currentStagger * 0.02 + lineIdx * 0.15,
-                duration: 0.6,
-                ease: [0.33, 1, 0.68, 1],
-              }}
-              className="inline-block mx-1 md:mx-2 align-middle"
+              transition={springTransition(currentStagger * 0.02 + lineIdx * 0.15)}
+              className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] font-bold font-heading text-primary inline-block tracking-tight uppercase will-change-transform"
             >
-              <img
-                src={imgSrc}
-                alt={key}
-                className="w-16 h-10 md:w-28 md:h-16 object-cover rounded-xl shadow-sm hover:scale-105 transition-transform duration-300 pointer-events-auto"
-              />
-            </motion.div>
+              {char === " " ? "\u00A0" : char}
+            </motion.span>
           );
-        }
-      }
-
-      const chars = Array.from(part);
-      return chars.map((char, charIdx) => {
-        const currentStagger = staggerIndex;
-        staggerIndex++;
-        return (
-          <motion.span
-            key={`${partIdx}-${charIdx}`}
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              delay: currentStagger * 0.02 + lineIdx * 0.15,
-              duration: 0.6,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] font-bold font-heading text-primary inline-block tracking-tight uppercase"
-          >
-            {char === " " ? "\u00A0" : char}
-          </motion.span>
-        );
+        });
       });
+
+      return (
+        <div key={lineIdx} className="flex justify-center items-center flex-wrap overflow-hidden py-2 leading-[1.1]">
+          {elements}
+        </div>
+      );
     });
-  };
+  }, []);
 
   return (
-    <section className="h-screen w-full flex flex-col items-center justify-center text-center px-6 relative overflow-hidden pointer-events-none">
+    <section className="h-screen w-full flex flex-col items-center justify-center text-center px-6 relative overflow-hidden pointer-events-none bg-bg">
       
       {/* MAIN HEADING */}
       <div className="space-y-2 md:space-y-4 max-w-[95vw] pointer-events-auto">
-        {textLines.map((line, i) => (
-          <div key={i} className="flex justify-center items-center flex-wrap overflow-hidden py-2 leading-[1.1]">
-            {renderLine(line, i)}
-          </div>
-        ))}
+        {renderedContent}
       </div>
 
       {/* SUBTEXT */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
-        className="mt-8 text-text-secondary max-w-xl text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70"
+        transition={{ delay: 1, duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+        className="mt-8 text-text-secondary max-w-xl text-sm md:text-lg font-normal tracking-tight leading-relaxed opacity-70 will-change-transform"
       >
         Babies grow. Kids get hyper. Weddings get emotional. <br className="hidden md:block" />
         Good thing we’re there to freeze it all before it disappears.

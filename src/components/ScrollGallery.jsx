@@ -15,7 +15,7 @@ const imageData = [
   },
   {
     // Top Right
-    src: "img4.webp",
+    src: "img2.webp",
     className: "w-44 h-32 md:w-64 md:h-44 rounded-[25px]",
     top: "100vh",
     left: "75%",
@@ -31,7 +31,7 @@ const imageData = [
   },
   {
     // Bottom Right
-    src: "img6.webp",
+    src: "img4.webp",
     className: "w-36 h-42 md:w-52 md:h-[300px] rounded-[30px]",
     top: "150vh",
     left: "72%",
@@ -44,22 +44,27 @@ export default function ScrollGallery() {
     const imagesRef = useRef([]);
 
     useEffect(() => {
-        imagesRef.current.forEach((el, i) => {
-            if (!el) return;
+        // 🚀 Use gsap.context for precise memory management and buttery smooth cleanup
+        const ctx = gsap.context(() => {
+            imagesRef.current.forEach((el, i) => {
+                if (!el) return;
 
-            const speed = imageData[i].speed;
+                const speed = imageData[i].speed;
 
-            gsap.to(el, {
-                y: -speed - 400,
-                ease: "power1.out",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1.5,
-                },
+                gsap.to(el, {
+                    y: -speed - 400,
+                    ease: "none", // Linear parallax is usually smoother for scrubbing
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1.5, // High scrub for fluid, buttery motion
+                    },
+                });
             });
-        });
+        }, containerRef);
+
+        return () => ctx.revert(); // Cleanup on unmount
     }, []);
 
     return (
@@ -72,7 +77,7 @@ export default function ScrollGallery() {
                     <div
                         key={i}
                         ref={(el) => (imagesRef.current[i] = el)}
-                        className={`absolute ${data.className} shadow-xl pointer-events-auto overflow-hidden bg-bg/10 backdrop-blur-sm`}
+                        className={`absolute ${data.className} shadow-xl pointer-events-auto overflow-hidden bg-bg/10 backdrop-blur-sm will-change-transform`}
                         style={{
                             left: data.left,
                             top: data.top,
@@ -82,6 +87,7 @@ export default function ScrollGallery() {
                         <img
                             src={`/images/${data.src}`}
                             alt=""
+                            loading="lazy"
                             className="w-full h-full object-cover rounded-[inherit]"
                         />
                     </div>

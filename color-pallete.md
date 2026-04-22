@@ -1,9 +1,8 @@
---color-primary: #0E0E0E;
+--color-primary: #1A1A1A;
 --color-bg: #F5F5F5;
 --color-card: #EAEAEA;
 --color-accent: #C7D98B;
 --color-text-secondary: #6B6B6B;
---color-dark: #1A1A1A;
 
 
 --color-accent-hover: #b6c97a;
