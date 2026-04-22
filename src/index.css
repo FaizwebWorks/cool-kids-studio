@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-satoshi: "Satoshi", sans-serif;
+  --font-display: "Big Shoulders", sans-serif;
+
+  --color-primary: #1a1a1a;
+  --color-bg: #f5f5f5;
+  --color-card: #eaeaea;
+  --color-accent: #c7d98b;
+  --color-text-secondary: #6b6b6b;
+  --color-accent-hover: #b6c97a;
+  --color-border: #e2e2e2;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-glass: rgba(255, 255, 255, 0.6);
+}
+
+* {
+  font-family: var(--font-satoshi);
+  box-sizing: border-box;
+}
+
+.font-heading {
+  font-family: var(--font-display);
+}
