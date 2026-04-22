@@ -33,7 +33,7 @@ export default function ServicesSection() {
     <section className="py-20 sm:py-28 bg-bg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="text-center mb-16 sm:mb-20">
-          <h2 className="text-[2.5rem] sm:text-[3.5rem] font-bold font-heading text-primary tracking-tight uppercase mb-6">
+          <h2 className="text-[2.5rem] sm:text-[3.5rem] font-semibold font-heading text-primary tracking-tight uppercase mb-6">
             Our Services
           </h2>
           <p className="text-text-secondary max-w-xl mx-auto text-sm sm:text-base leading-relaxed opacity-80">

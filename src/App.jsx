@@ -5,11 +5,13 @@ import Navbar from './components/Navbar'
 import Lenis from 'lenis'
 import ServicesSection from './components/ServicesSection'
 import HorizontalServices from './components/HorizontalServices'
+import Stats from './components/Stats'
+import HowItWorks from './components/HowItWorks'
 
 const App = () => {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 4.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
@@ -39,12 +41,10 @@ const App = () => {
       <div className="relative z-10 pointer-events-none">
         <ScrollGallery />
       </div>
-      {/* <div className="relative z-20">
-        <ServicesSection />
-      </div> */}
       <div className="relative z-20">
         <HorizontalServices />
-        <ServicesSection />
+        <Stats />
+        <HowItWorks />
       </div>
     </main>
   )

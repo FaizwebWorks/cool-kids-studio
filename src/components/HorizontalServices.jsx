@@ -68,7 +68,7 @@ export default function HorizontalServices() {
     <>
       {/* 🔥 SECTION TITLE */}
       <div className="hidden md:block text-center py-24 bg-bg">
-        <h2 className="text-6xl font-heading text-primary">
+        <h2 className="text-6xl font-semibold font-heading text-primary">
           Our Services
         </h2>
         <p className="text-text-secondary mt-4 max-w-xl mx-auto">
@@ -109,7 +109,7 @@ export default function HorizontalServices() {
                   {i + 1}
                 </span>
 
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-heading text-primary mt-2 relative inline-block">
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-heading font-medium text-primary mt-2 relative inline-block">
                   {service.title}
                   <span className="absolute -bottom-2 left-0 w-24 h-1 bg-accent" />
                 </h2>
