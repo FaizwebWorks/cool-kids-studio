@@ -234,7 +234,7 @@ const GiftCards = () => {
            <div className="relative z-10">
               <div className="mb-10 md:mb-20 text-center lg:text-left">
                 <span className="text-xs font-bold uppercase tracking-[0.4em] text-primary/40 block mb-2">Process</span>
-                <h3 className="text-3xl md:text-5xl font-heading uppercase">Simple Flow. <span className="text-primary/20">Instant Joy.</span></h3>
+                <h3 className="text-3xl md:text-5xl font-heading uppercase">Simple Flow. <span className="text-primary/20 italic">Instant Joy.</span></h3>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
