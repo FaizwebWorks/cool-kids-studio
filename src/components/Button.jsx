@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "phosphor-react";
 
-export default function Button({ text, primary, onClick }) {
+export default function Button({ text, primary, onClick, className = "", icon }) {
   // Use Array.from to correctly split emojis and other special characters
   const characters = Array.from(text);
 
@@ -10,16 +10,18 @@ export default function Button({ text, primary, onClick }) {
       whileHover="hover"
       onClick={onClick}
       className={`relative flex items-center justify-center gap-3 px-8 py-4 rounded-full overflow-hidden border transition-colors duration-300 group cursor-pointer
-        ${primary 
-          ? "bg-accent text-primary/95 border-accent hover:bg-accent-hover hover:border-accent-hover" 
-          : "bg-transparent text-primary/95 border-primary/10 hover:border-primary/40"
-        }`}
+       ${primary
+          ? "bg-accent text-primary/95 border-accent hover:bg-accent-hover hover:border-accent-hover"
+          : "bg-bg text-primary/95 border-bg hover:bg-[#eaeaea]"
+        }
+          ${className}
+        `}
     >
       {/* TEXT CONTAINER */}
       <span className="relative flex overflow-hidden font-medium text-base leading-none">
         {characters.map((char, i) => (
           <span key={i} className="relative inline-block h-[1.2em] overflow-hidden">
-            
+
             {/* ORIGINAL */}
             <motion.span
               variants={{
@@ -48,14 +50,14 @@ export default function Button({ text, primary, onClick }) {
 
       {/* ICON CONTAINER */}
       <span className="relative w-5 h-5 overflow-hidden flex items-center justify-center">
-        
+
         {/* DEFAULT ICON */}
         <motion.span
           variants={{ hover: { x: 20, y: -20, opacity: 0 } }}
           transition={{ duration: 0.4, ease: "backOut" }}
           className="absolute"
         >
-          <ArrowUpRight size={20} weight="bold" />
+          {icon ? icon : <ArrowUpRight size={20} weight="bold" />}
         </motion.span>
 
         {/* HOVER ICON (Slides in) */}
@@ -72,3 +74,4 @@ export default function Button({ text, primary, onClick }) {
     </motion.button>
   );
 }
+

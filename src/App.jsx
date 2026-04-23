@@ -16,6 +16,7 @@ import PrivateGallery from './components/PrivateGallery'
 import GiftCards from './components/GiftCards'
 import ReferralProgram from './components/ReferralProgram'
 import MilestoneReminder from './components/MilestoneReminder'
+import CTABanner from './components/CTABanner'
 
 // Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
@@ -80,6 +81,7 @@ const App = () => {
         <GiftCards />
         <ReferralProgram />
         <MilestoneReminder />
+        <CTABanner />
       </div>
     </main>
   )

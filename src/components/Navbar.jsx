@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo } from 'phosphor-react';
 
 const Navbar = () => {
   const [time, setTime] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+    if (latest > previous && latest > 150) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+  });
 
   useEffect(() => {
     const updateTime = () => {
@@ -38,7 +49,15 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-bg">
+      <motion.nav 
+        variants={{
+          visible: { y: 0 },
+          hidden: { y: "-100%" }
+        }}
+        animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-bg/80 backdrop-blur-xl border-b border-primary/5"
+      >
         
         {/* LEFT: MENU ICON */}
         <button 
@@ -68,7 +87,7 @@ const Navbar = () => {
           <span>GUJARAT, INDIA</span>
           <span className="opacity-60">{time}</span>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* FULLSCREEN MENU OVERLAY */}
       <AnimatePresence mode="wait">
