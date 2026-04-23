@@ -10,6 +10,9 @@ import HorizontalServices from './components/HorizontalServices'
 import Stats from './components/Stats'
 import HowItWorks from './components/HowItWorks'
 import Gallery from './components/Gallery'
+import Pricing from './components/Pricing'
+import Testimonials from './components/Testimonials'
+import PrivateGallery from './components/PrivateGallery'
 
 // Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
@@ -68,6 +71,9 @@ const App = () => {
         <Stats />
         <HowItWorks />
         <Gallery />
+        <Pricing />
+        <Testimonials />
+        <PrivateGallery />
       </div>
     </main>
   )

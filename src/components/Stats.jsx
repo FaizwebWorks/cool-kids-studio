@@ -24,19 +24,6 @@ export default function Stats() {
         }
       });
 
-      // Subtle floating animation for cards
-      // gsap.to(".stat-item", {
-      //   y: -10,
-      //   duration: 2,
-      //   repeat: -1,
-      //   yoyo: true,
-      //   ease: "sine.inOut",
-      //   stagger: {
-      //     each: 0.2,
-      //     from: "random"
-      //   }
-      // });
-
       stats.forEach((stat, i) => {
         const el = numberRefs.current[i];
         if (!el) return;
@@ -67,13 +54,13 @@ export default function Stats() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-40 bg-bg relative overflow-hidden">
+    <section ref={sectionRef} className="py-5 md:py-40 bg-bg relative overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[40vw] h-[40vw] bg-accent/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 right-0 w-[30vw] h-[30vw] bg-primary/5 blur-[100px] rounded-full" />
 
       <div className="container mx-auto px-6 relative">
-        <div className="text-center mb-24 md:mb-32">
+        <div className="text-center mb-10 md:mb-32">
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-heading text-primary/95 leading-tight">
             Trust the <span className="italic tracking-tighter text-accent">Numbers</span>
           </h2>

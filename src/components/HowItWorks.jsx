@@ -132,10 +132,10 @@ export default function HowItWorks() {
   }, [steps]);
 
   return (
-    <section className="py-20 md:py-32 bg-bg overflow-hidden relative">
+    <section className="py-16 bg-bg overflow-hidden relative">
       <div className="container mx-auto px-6 max-w-5xl">
         
-        <header className="mb-20 md:mb-28 text-center md:text-left">
+        <header className="mb-16 md:mb-28 text-center md:text-left">
           <h2 className="text-5xl md:text-7xl text-center font-heading text-primary/95 leading-tight tracking-tight">
             How it <span className="italic tracking-tighter text-accent">Works</span>
           </h2>
@@ -195,7 +195,7 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        <div className="mt-24 md:mt-32 flex justify-center">
+        <div className="mt-16 md:mt-32 flex justify-center">
           <Button text="Start Your Journey" primary />
         </div>
       </div>

@@ -84,7 +84,7 @@ export default function HorizontalServices() {
   return (
     <>
       {/* 🔥 SECTION TITLE */}
-      <div ref={titleRef} className="hidden md:block text-center py-24 bg-bg">
+      <div ref={titleRef} className="md:py-16 hidden md:block text-center bg-bg">
         <h2 className="text-6xl font-heading text-primary/95">
           Our Services
         </h2>
