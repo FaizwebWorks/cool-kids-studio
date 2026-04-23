@@ -158,18 +158,113 @@ export default function HorizontalServices() {
       </section>
 
       {/* 📱 MOBILE FALLBACK */}
-      <div className="md:hidden px-6 py-20 space-y-16 bg-bg">
+
+      <MobileCarousel services={services} />
+    </>
+  );
+}
+
+function MobileCarousel({ services }) {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    setTimeout(() => {
+      let count = 0;
+
+      const card = el.querySelector("[data-card]");
+      const cardWidth = card?.offsetWidth || 300;
+
+      // ❌ disable snap temporarily
+      el.style.scrollSnapType = "none";
+
+      const run = () => {
+        el.scrollTo({
+          left: cardWidth * 0.35, // 👈 strong visible peek
+          behavior: "smooth",
+        });
+
+        setTimeout(() => {
+          el.scrollTo({
+            left: 0,
+            behavior: "smooth",
+          });
+
+          count++;
+          if (count < 2) {
+            setTimeout(run, 700);
+          } else {
+            // ✅ restore snap after animation
+            setTimeout(() => {
+              el.style.scrollSnapType = "x mandatory";
+            }, 300);
+          }
+        }, 700);
+      };
+
+      run();
+    }, 1200);
+  }, []);
+
+
+  return (
+    <div className="md:hidden bg-bg pb-16">
+
+      <div className="px-6 pt-10 pb-3">
+        <h2 className="text-4xl font-heading text-primary/95">
+          Our Services
+        </h2>
+      </div>
+
+      <div className="flex items-center gap-2 px-6 pb-4 text-xs text-text-secondary">
+        <span>Swipe</span>
+        <div className="w-10 h-[2px] bg-border relative overflow-hidden">
+          <div className="absolute inset-0 bg-accent animate-swipe-line" />
+        </div>
+        <span>→</span>
+      </div>
+
+      <div
+        ref={scrollRef}
+        className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-6"
+      >
         {services.map((s, i) => (
-          <div key={i}>
-            <img
-              src={s.img}
-              className="w-full h-[250px] object-cover rounded-2xl mb-4"
-            />
-            <h3 className="text-2xl font-heading text-primary/95">{s.title}</h3>
-            <p className="text-sm text-text-secondary">{s.desc}</p>
+          <div
+            key={i}
+            data-card
+            className="snap-center shrink-0 w-[85%] mr-4"
+          >
+            <MobileCard service={s} index={i} />
           </div>
         ))}
       </div>
-    </>
+    </div>
+  );
+}
+
+function MobileCard({ service, index }) {
+  return (
+    <div className="py-10">
+      <img
+        src={service.img}
+        className="w-full h-[260px] object-cover rounded-3xl mb-6"
+      />
+
+      <span className="text-5xl text-border">{index + 1}</span>
+
+      <h3 className="text-2xl font-heading mt-1">
+        {service.title}
+      </h3>
+
+      <p className="text-sm text-text-secondary mt-3">
+        {service.desc}
+      </p>
+
+      <div className="mt-6">
+        <Button text="Book Shoot" primary />
+      </div>
+    </div>
   );
 }

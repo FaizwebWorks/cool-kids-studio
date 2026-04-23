@@ -72,7 +72,7 @@ const ReferralProgram = () => {
         </div>
 
         {/* MAIN VISUAL: THE "DOUBLE REWARD" CARD */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center mb-0 md:mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
 
           <div className="relative order-2 lg:order-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">

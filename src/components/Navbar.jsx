@@ -22,7 +22,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    "HOME", "SERVICE", "GALLERY", "PRICING", "HOW IT WORKS", "BLOG", "CONTACT"
+    "HOME", "SERVICE", "GALLERY", "PRICING", "HOW IT WORKS", "CONTACT"
   ];
 
   const menuVariants = {
@@ -35,20 +35,6 @@ const Navbar = () => {
       transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
     }
   };
-
-  // const linkVariants = {
-  //   initial: { x: -20, opacity: 0 },
-  //   enter: (i) => ({
-  //     x: 0, opacity: 1,
-  //     transition: { 
-  //       type: "spring",
-  //       stiffness: 50,
-  //       damping: 15,
-  //       delay: 0.5 + i * 0.05 
-  //     }
-  //   }),
-  //   exit: { opacity: 0, transition: { duration: 0.3 } }
-  // };
 
   return (
     <>

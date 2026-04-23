@@ -99,7 +99,7 @@ const PrivateGallery = () => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-              className="relative w-[320px] md:w-[480px] aspect-[4/3] bg-white border-[6px] md:border-[10px] border-primary rounded-[2.5rem] shadow-2xl overflow-hidden z-20"
+              className="relative w-full md:w-[480px] aspect-[4/4] md:aspect-[4/3] bg-white border-[6px] md:border-[10px] border-primary rounded-[2.5rem] shadow-2xl overflow-hidden z-20"
             >
               <div className="w-full h-full flex flex-col bg-gray-50">
                 <div className="px-6 py-4 border-b border-black/5 flex justify-between items-center bg-white">
