@@ -9,6 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HorizontalServices from './components/HorizontalServices'
 import Stats from './components/Stats'
 import HowItWorks from './components/HowItWorks'
+import Gallery from './components/Gallery'
 
 // Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
@@ -66,6 +67,7 @@ const App = () => {
         <HorizontalServices />
         <Stats />
         <HowItWorks />
+        <Gallery />
       </div>
     </main>
   )

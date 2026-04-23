@@ -85,7 +85,7 @@ export default function HorizontalServices() {
     <>
       {/* 🔥 SECTION TITLE */}
       <div ref={titleRef} className="hidden md:block text-center py-24 bg-bg">
-        <h2 className="text-6xl font-heading text-primary">
+        <h2 className="text-6xl font-heading text-primary/95">
           Our Services
         </h2>
         <p className="text-text-secondary mt-4 max-w-xl mx-auto">
@@ -116,7 +116,7 @@ export default function HorizontalServices() {
                   </div>
 
                   <div className="absolute -bottom-4 -right-4 bg-white px-6 py-3 rounded-full">
-                    <span className="text-sm font-medium text-primary">Starting ₹5,999</span>
+                    <span className="text-sm font-medium text-primary/95">Starting ₹5,999</span>
                   </div>
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function HorizontalServices() {
                   {i + 1}
                 </span>
 
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-heading text-primary mt-2 relative inline-block">
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-heading text-primary/95 mt-2 relative inline-block">
                   {service.title}
                   <span className="absolute -bottom-2 left-0 w-24 h-0.5 bg-accent" />
                 </h2>
@@ -165,7 +165,7 @@ export default function HorizontalServices() {
               src={s.img}
               className="w-full h-[250px] object-cover rounded-2xl mb-4"
             />
-            <h3 className="text-2xl font-heading text-primary">{s.title}</h3>
+            <h3 className="text-2xl font-heading text-primary/95">{s.title}</h3>
             <p className="text-sm text-text-secondary">{s.desc}</p>
           </div>
         ))}

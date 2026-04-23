@@ -136,7 +136,7 @@ export default function HowItWorks() {
       <div className="container mx-auto px-6 max-w-5xl">
         
         <header className="mb-20 md:mb-28 text-center md:text-left">
-          <h2 className="text-5xl md:text-7xl text-center font-heading text-primary leading-tight tracking-tight">
+          <h2 className="text-5xl md:text-7xl text-center font-heading text-primary/95 leading-tight tracking-tight">
             How it <span className="italic tracking-tighter text-accent">Works</span>
           </h2>
         </header>
@@ -166,7 +166,7 @@ export default function HowItWorks() {
                     ${index % 2 === 0 ? "md:mr-10" : "md:ml-10"}`}>
                     
                     {/* Subtle Numbering */}
-                    <span className="absolute top-2 right-6 text-7xl md:text-9xl font-heading text-primary opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none select-none">
+                    <span className="absolute top-2 right-6 text-7xl md:text-9xl font-heading text-primary/95 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none select-none">
                       {index + 1}
                     </span>
 
@@ -175,7 +175,7 @@ export default function HowItWorks() {
                         <step.icon size={36} weight="duotone" />
                       </div>
                       <div>
-                        <h3 className="text-xl md:text-3xl font-heading text-primary mb-3">
+                        <h3 className="text-xl md:text-3xl font-heading text-primary/95 mb-3">
                           {step.title}
                         </h3>
                         <p className="text-sm md:text-lg text-text-secondary leading-relaxed ">

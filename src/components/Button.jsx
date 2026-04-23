@@ -11,8 +11,8 @@ export default function Button({ text, primary, onClick }) {
       onClick={onClick}
       className={`relative flex items-center justify-center gap-3 px-8 py-4 rounded-full overflow-hidden border transition-colors duration-300 group cursor-pointer
         ${primary 
-          ? "bg-accent text-primary border-accent hover:bg-accent-hover hover:border-accent-hover" 
-          : "bg-transparent text-primary border-primary hover:bg-primary hover:text-bg"
+          ? "bg-accent text-primary/95 border-accent hover:bg-accent-hover hover:border-accent-hover" 
+          : "bg-transparent text-primary/95 border-primary/10 hover:border-primary/40"
         }`}
     >
       {/* TEXT CONTAINER */}

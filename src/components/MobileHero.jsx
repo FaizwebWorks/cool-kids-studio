@@ -15,7 +15,7 @@ export default function MobileHero() {
             damping: 20,
             mass: 1,
           }}
-          className="text-[2.5rem] font-semibold font-heading text-primary tracking-tight uppercase leading-[1.1]"
+          className="text-[2.5rem] font-semibold font-heading text-primary/95 tracking-tight uppercase leading-[1.1]"
         >
           From tiny giggles to big milestones captured before it slips away.
         </motion.h1>

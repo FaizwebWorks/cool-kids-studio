@@ -64,7 +64,7 @@ export default function Hero() {
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={springTransition(currentStagger * 0.02 + lineIdx * 0.15)}
-              className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] font-semibold font-heading text-primary inline-block tracking-tight uppercase will-change-transform"
+              className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] font-semibold font-heading text-primary/95 inline-block tracking-tight uppercase will-change-transform"
             >
               {char === " " ? "\u00A0" : char}
             </motion.span>

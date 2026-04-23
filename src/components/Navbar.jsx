@@ -62,23 +62,23 @@ const Navbar = () => {
         >
           <motion.div 
             animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
-            className="w-10 md:w-12 h-0.5 bg-primary origin-center will-change-transform"
+            className="w-10 md:w-12 h-0.5 bg-primary/95 origin-center will-change-transform"
           />
           <motion.div 
             animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
-            className="w-10 md:w-12 h-0.5 bg-primary origin-center will-change-transform"
+            className="w-10 md:w-12 h-0.5 bg-primary/95 origin-center will-change-transform"
           />
         </button>
 
         {/* CENTER: LOGO */}
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
-          <span className="text-xl md:text-3xl font-semibold tracking-tight text-primary">
+          <span className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95">
             The Cool Kids.
           </span>
         </div>
 
         {/* RIGHT: LOCATION & TIME */}
-        <div className="hidden sm:flex flex-col items-end text-[10px] md:text-sm font-medium tracking-wider leading-3 md:leading-4 text-primary z-[110]">
+        <div className="hidden sm:flex flex-col items-end text-[10px] md:text-sm font-medium tracking-wider leading-3 md:leading-4 text-primary/95 z-[110]">
           <span>GUJARAT, INDIA</span>
           <span className="opacity-60">{time}</span>
         </div>
@@ -132,7 +132,7 @@ const Navbar = () => {
               <div className="flex flex-col items-center md:items-end gap-4 md:gap-6 text-center md:text-right">
                 <div className="flex flex-col items-center md:items-end">
                   <span className="text-text-secondary text-xs md:text-lg opacity-60 font-medium">(239) 555-0108</span>
-                  <a href="mailto:hello@coolkids.com" className="text-lg md:text-3xl font-bold text-primary hover:opacity-70 transition-opacity uppercase">
+                  <a href="mailto:hello@coolkids.com" className="text-lg md:text-3xl font-bold text-primary/95 hover:opacity-70 transition-opacity uppercase">
                     HELLO@COOLKIDS.COM
                   </a>
                 </div>
@@ -143,7 +143,7 @@ const Navbar = () => {
                     <motion.div
                       key={i}
                       whileHover={{ y: -5 }}
-                      className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary hover:text-bg transition-colors duration-300 will-change-transform"
+                      className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary/95 hover:text-bg transition-colors duration-300 will-change-transform"
                     >
                       <Icon size={18} weight="fill" />
                     </motion.div>
