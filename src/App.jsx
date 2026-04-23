@@ -13,6 +13,7 @@ import Gallery from './components/Gallery'
 import Pricing from './components/Pricing'
 import Testimonials from './components/Testimonials'
 import PrivateGallery from './components/PrivateGallery'
+import GiftCards from './components/GiftCards'
 
 // Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
@@ -74,6 +75,7 @@ const App = () => {
         <Pricing />
         <Testimonials />
         <PrivateGallery />
+        <GiftCards />
       </div>
     </main>
   )
