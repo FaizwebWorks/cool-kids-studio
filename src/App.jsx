@@ -17,6 +17,8 @@ import GiftCards from './components/GiftCards'
 import ReferralProgram from './components/ReferralProgram'
 import MilestoneReminder from './components/MilestoneReminder'
 import CTABanner from './components/CTABanner'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 // Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
@@ -82,6 +84,8 @@ const App = () => {
         <ReferralProgram />
         <MilestoneReminder />
         <CTABanner />
+        <Contact />
+        <Footer />
       </div>
     </main>
   )
