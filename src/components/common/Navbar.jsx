@@ -76,7 +76,7 @@ const Navbar = () => {
           <a 
             href="#home" 
             onClick={() => setIsMenuOpen(false)}
-            className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95"
+            className="text-xl md:text-3xl font-semibold tracking-tighter text-primary/95"
             aria-label="The Cool Kids - Home"
           >
             The Cool Kids.
