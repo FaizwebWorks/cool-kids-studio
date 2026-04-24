@@ -85,7 +85,7 @@ const Navbar = () => {
           <a 
             href="#home" 
             onClick={() => setIsMenuOpen(false)}
-            className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95 hover:opacity-70 transition-opacity"
+            className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95"
           >
             The Cool Kids.
           </a>
