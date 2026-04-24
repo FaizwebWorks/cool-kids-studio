@@ -149,7 +149,6 @@ const Gallery = () => {
             {activeCategory === "All" && (
               <Button 
                 text={showAll ? "Hide Extra Gallery" : "View Full Gallery"} 
-                Icon={Image} 
                 primary 
                 onClick={() => setShowAll(!showAll)}
               />
