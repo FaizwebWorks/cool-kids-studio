@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreditCard, Sparkle, CheckCircle, ArrowRight, Selection, ShieldCheck, EnvelopeOpen, CalendarCheck } from 'phosphor-react';
-import Button from './Button';
+import Button from '../common/Button';
 
 const giftAmounts = [
   { label: "Starter", value: "2000" },
@@ -65,7 +65,7 @@ const GiftCards = () => {
   const displayAmount = selectedAmount === "0" || !selectedAmount ? "Any Amount" : `₹${Number(selectedAmount).toLocaleString('en-IN')}`;
 
   return (
-    <section className="py-16 md:py-20 px-6 md:px-12 lg:px-24 bg-bg relative overflow-hidden">
+    <section id="gifts" className="py-16 md:py-20 px-6 md:px-12 lg:px-24 bg-bg relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* HEADER SECTION */}
@@ -96,7 +96,7 @@ const GiftCards = () => {
               className="text-lg md:text-xl text-text-secondary leading-snug font-medium"
             >
               Because toys get forgotten. Photos last forever. Perfect for those who 
-              <span className="text-primary italic"> value experiences </span> over possessions.
+              <span className="text-primary/95 italic"> value experiences </span> over possessions.
             </motion.p>
           </div>
         </div>
@@ -186,7 +186,7 @@ const GiftCards = () => {
                     
                     {amt.label === "Custom" ? (
                       <div className="flex items-center">
-                        <span className={`text-xl font-heading uppercase mr-1 ${isCustom ? "text-white" : "text-primary"}`}>₹</span>
+                        <span className={`text-xl font-heading uppercase mr-1 ${isCustom ? "text-white" : "text-primary/95"}`}>₹</span>
                         <input 
                           type="text"
                           placeholder="Amount"
@@ -194,12 +194,12 @@ const GiftCards = () => {
                           onChange={handleCustomChange}
                           onFocus={() => setIsCustom(true)}
                           className={`w-full bg-transparent border-none outline-none font-heading text-xl uppercase p-0
-                            ${isCustom ? "text-white placeholder:text-white/20" : "text-primary placeholder:text-primary/20"}`}
+                            ${isCustom ? "text-white placeholder:text-white/20" : "text-primary/95 placeholder:text-primary/20"}`}
                         />
                       </div>
                     ) : (
                       <div className={`text-xl font-heading uppercase 
-                        ${selectedAmount === amt.value && !isCustom ? "text-white" : "text-primary"}`}>
+                        ${selectedAmount === amt.value && !isCustom ? "text-white" : "text-primary/95"}`}>
                         ₹{Number(amt.value).toLocaleString('en-IN')}
                       </div>
                     )}
@@ -254,7 +254,7 @@ const GiftCards = () => {
 
                     <div className="flex items-baseline gap-4 mb-4">
                       <span className="text-2xl font-heading text-primary/10 group-hover:text-accent/30 transition-colors">{step.id}</span>
-                      <h4 className="font-bold text-primary uppercase tracking-wider text-sm">
+                      <h4 className="font-bold text-primary/95 uppercase tracking-wider text-sm">
                         {step.title}
                       </h4>
                     </div>

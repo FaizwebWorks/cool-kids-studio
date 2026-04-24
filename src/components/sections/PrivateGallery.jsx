@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, DownloadSimple, DeviceMobile, Image, Clock } from 'phosphor-react';
-import Button from './Button';
+import Button from '../common/Button';
 
 const features = [
   {
@@ -57,7 +57,7 @@ const PrivateGallery = () => {
               </h2>
               <p className="text-base md:text-xl text-text-secondary leading-snug font-medium mb-10 max-w-lg">
                 No more receiving 80 blurry photos on WhatsApp. Every shoot comes with a 
-                <span className="text-primary italic"> dedicated digital vault</span> built just for you.
+                <span className="text-primary/95 italic"> dedicated digital vault</span> built just for you.
               </p>
 
               {/* FEATURES LIST */}
@@ -71,11 +71,11 @@ const PrivateGallery = () => {
                     transition={{ delay: 0.1 * idx }}
                     className="flex items-start gap-4 group"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-white border border-primary/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary transition-all duration-500 shadow-sm shadow-primary/5 flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-white border border-primary/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary/95 transition-all duration-500 shadow-sm shadow-primary/5 flex-shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="font-bold text-primary uppercase tracking-wider text-xs mb-1">{item.title}</h4>
+                      <h4 className="font-bold text-primary/95 uppercase tracking-wider text-xs mb-1">{item.title}</h4>
                       <p className="text-text-secondary text-xs leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>

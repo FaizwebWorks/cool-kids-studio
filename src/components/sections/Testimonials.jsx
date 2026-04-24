@@ -1,7 +1,7 @@
 import React from 'react';
 import { Quotes, Star } from 'phosphor-react';
 import { motion } from 'framer-motion';
-import Button from './Button';
+import Button from '../common/Button';
 
 const testimonials = [
   {
@@ -212,7 +212,7 @@ const Testimonials = () => {
         {/* BOTTOM ACTION */}
         <div className="mt-10 md:mt-20 flex flex-col items-center text-center">
           <p className="text-xs md:text-sm text-text-secondary font-medium mb-6">
-            Ready to be featured in our <span className="text-primary italic">love notes?</span>
+            Ready to be featured in our <span className="text-primary/95 italic">love notes?</span>
           </p>
           <Button
             text="Get Custom Quote"

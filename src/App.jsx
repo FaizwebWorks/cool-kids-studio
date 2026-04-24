@@ -1,99 +1,127 @@
-import React, { useEffect } from 'react'
-import Hero from './components/Hero'
-import MobileHero from './components/MobileHero'
-import ScrollGallery from './components/ScrollGallery'
-import Navbar from './components/Navbar'
-import Lenis from 'lenis'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import HorizontalServices from './components/HorizontalServices'
-import Stats from './components/Stats'
-import HowItWorks from './components/HowItWorks'
-import Gallery from './components/Gallery'
-import Pricing from './components/Pricing'
-import Testimonials from './components/Testimonials'
-import PrivateGallery from './components/PrivateGallery'
-import GiftCards from './components/GiftCards'
-import ReferralProgram from './components/ReferralProgram'
-import MilestoneReminder from './components/MilestoneReminder'
-import CTABanner from './components/CTABanner'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
+import React, { Suspense, lazy, useEffect, useMemo } from 'react';
+import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Register ONCE at the root
 gsap.registerPlugin(ScrollTrigger);
 
+// Components
+import Navbar from './components/common/Navbar';
+import { HeroSkeleton, SectionSkeleton } from './components/common/Skeleton';
+
+const Hero = lazy(() => import('./components/sections/Hero'));
+const MobileHero = lazy(() => import('./components/sections/MobileHero'));
+const ScrollGallery = lazy(() => import('./components/sections/ScrollGallery'));
+const HorizontalServices = lazy(() => import('./components/sections/HorizontalServices'));
+const Stats = lazy(() => import('./components/sections/Stats'));
+const HowItWorks = lazy(() => import('./components/sections/HowItWorks'));
+const Gallery = lazy(() => import('./components/sections/Gallery'));
+const Pricing = lazy(() => import('./components/sections/Pricing'));
+const Testimonials = lazy(() => import('./components/sections/Testimonials'));
+const PrivateGallery = lazy(() => import('./components/sections/PrivateGallery'));
+const GiftCards = lazy(() => import('./components/sections/GiftCards'));
+const ReferralProgram = lazy(() => import('./components/sections/ReferralProgram'));
+const MilestoneReminder = lazy(() => import('./components/sections/MilestoneReminder'));
+const CTABanner = lazy(() => import('./components/common/CTABanner'));
+const Contact = lazy(() => import('./components/sections/Contact'));
+const Footer = lazy(() => import('./components/common/Footer'));
+
 const App = () => {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.5, // Increased from 1.2 for a more relaxed feel
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth exponential out
       smoothWheel: true,
-      touchMultiplier: 2, // Better for mobile response
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
+      anchors: true, // Handle anchor links smoothly
     });
 
-    // Mandatory: Update ScrollTrigger on Lenis scroll
+    const raf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+
+    const requestID = requestAnimationFrame(raf);
+
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Synchronize GSAP with Lenis
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
 
-    // Disable lag smoothing for better sync
     gsap.ticker.lagSmoothing(0);
 
-    // Final refresh after everything is loaded
-    window.onload = () => {
+    const handleLoad = () => {
       ScrollTrigger.refresh();
     };
 
+    window.addEventListener('load', handleLoad);
+
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      cancelAnimationFrame(requestID);
+      window.removeEventListener('load', handleLoad);
+      gsap.ticker.remove(lenis.raf);
     };
   }, []);
 
   return (
     <main className="bg-bg relative min-h-screen">
-      {/* Scroll Anchor for Home */}
-      <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" />
+      <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" aria-hidden="true" />
 
       <Navbar />
 
       <div className="hidden md:block fixed top-0 left-0 w-full h-screen z-0">
-        <Hero />
+        <Suspense fallback={<HeroSkeleton />}>
+          <Hero />
+        </Suspense>
       </div>
 
       <div className="md:hidden relative z-10">
-        <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" />
-        <MobileHero />
+        <Suspense fallback={<HeroSkeleton />}>
+          <MobileHero />
+        </Suspense>
       </div>
 
       <div className="hidden md:block relative z-10 pointer-events-none">
-
-        <ScrollGallery />
+        <Suspense fallback={null}>
+          <ScrollGallery />
+        </Suspense>
       </div>
 
       <div className="relative z-20">
-        <HorizontalServices />
-        <Stats />
-        <HowItWorks />
-        <Gallery />
-        <Pricing />
-        <Testimonials />
-        <PrivateGallery />
-        <GiftCards />
-        <ReferralProgram />
-        <MilestoneReminder />
-        <CTABanner />
-        <Contact />
-        <Footer />
+        <Suspense fallback={<SectionSkeleton />}>
+          <HorizontalServices />
+        </Suspense>
+        
+        <Suspense fallback={<SectionSkeleton />}>
+          <Stats />
+        </Suspense>
+
+        <Suspense fallback={<SectionSkeleton />}>
+          <HowItWorks />
+        </Suspense>
+
+        <Suspense fallback={<SectionSkeleton />}>
+          <Gallery />
+        </Suspense>
+
+        <Suspense fallback={<SectionSkeleton />}>
+          <Pricing />
+          <Testimonials />
+          <PrivateGallery />
+          <GiftCards />
+          <ReferralProgram />
+          <MilestoneReminder />
+          <CTABanner />
+          <Contact />
+          <Footer />
+        </Suspense>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default App
+export default App;

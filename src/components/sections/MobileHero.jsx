@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import Button from "./Button";
+import Button from "../common/Button";
 
 export default function MobileHero() {
   return (
