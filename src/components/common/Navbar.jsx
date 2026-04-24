@@ -4,7 +4,7 @@ import { FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo } from 'phosphor
 import { useClock } from '../../hooks/useClock';
 
 const navLinks = [
-  { text: "HOME", href: "#home" },
+  { text: "HOME", href: "/" },
   { text: "SERVICES", href: "#services" },
   { text: "GALLERY", href: "#gallery" },
   { text: "PRICING", href: "#pricing" },

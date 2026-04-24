@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   InstagramLogo, 
   WhatsappLogo, 
@@ -13,25 +14,25 @@ const Footer = () => {
 
   const footerLinks = {
     quickLinks: [
-      { name: "Home", href: "#home" },
-      { name: "Services", href: "#services" },
-      { name: "Pricing", href: "#pricing" },
-      { name: "Gallery", href: "#gallery" },
-      { name: "Contact", href: "#contact" },
-      { name: "Gift Cards", href: "#gifts" }
+      { name: "Home", href: "/" },
+      { name: "Services", href: "/#services" },
+      { name: "Pricing", href: "/#pricing" },
+      { name: "Gallery", href: "/#gallery" },
+      { name: "Contact", href: "/#contact" },
+      { name: "Gift Cards", href: "/#gifts" }
     ],
     services: [
-      { name: "Newborn", href: "#" },
-      { name: "Maternity", href: "#" },
-      { name: "Wedding", href: "#" },
-      { name: "Birthday", href: "#" },
-      { name: "Portrait", href: "#" },
-      { name: "Fashion", href: "#" }
+      { name: "Newborn", href: "/#services" },
+      { name: "Maternity", href: "/#services" },
+      { name: "Wedding", href: "/#services" },
+      { name: "Birthday", href: "/#services" },
+      { name: "Portrait", href: "/#services" },
+      { name: "Fashion", href: "/#services" }
     ],
     legal: [
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms & Conditions", href: "#" },
-      { name: "Refund Policy", href: "#" }
+      { name: "Privacy Policy", href: "/privacy-policy" },
+      { name: "Terms & Conditions", href: "/terms-and-conditions" },
+      { name: "Refund Policy", href: "/refund-policy" }
     ]
   };
 
@@ -51,21 +52,36 @@ const Footer = () => {
   ];
 
   // Animated Link Component for consistency
-  const AnimatedLink = ({ name, href }) => (
-    <li>
-      <a href={href} className="group relative w-fit block overflow-hidden py-1">
-        <div className="flex flex-col transition-transform duration-500 ease-[0.76,0,0.24,1] group-hover:-translate-y-full">
-          <span className="text-sm md:text-base font-medium text-white/60 whitespace-nowrap">
-            {name}
-          </span>
-          <span className="absolute top-full left-0 text-sm md:text-base font-medium text-accent italic whitespace-nowrap">
-            {name}
-          </span>
-        </div>
-        <div className="absolute bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-500 group-hover:w-full opacity-0 group-hover:opacity-100" />
-      </a>
-    </li>
-  );
+  const AnimatedLink = ({ name, href }) => {
+    const isInternal = href.startsWith('/') && !href.includes('#');
+
+    const content = (
+      <div className="flex flex-col transition-transform duration-500 ease-[0.76,0,0.24,1] group-hover:-translate-y-full">
+        <span className="text-sm md:text-base font-medium text-white/60 whitespace-nowrap">
+          {name}
+        </span>
+        <span className="absolute top-full left-0 text-sm md:text-base font-medium text-accent italic whitespace-nowrap">
+          {name}
+        </span>
+      </div>
+    );
+
+    return (
+      <li>
+        {isInternal ? (
+          <Link to={href} className="group relative w-fit block overflow-hidden py-1">
+            {content}
+            <div className="absolute bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-500 group-hover:w-full opacity-0 group-hover:opacity-100" />
+          </Link>
+        ) : (
+          <a href={href} className="group relative w-fit block overflow-hidden py-1">
+            {content}
+            <div className="absolute bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-500 group-hover:w-full opacity-0 group-hover:opacity-100" />
+          </a>
+        )}
+      </li>
+    );
+  };
 
   return (
     <footer className="bg-primary text-white pt-16 md:pt-24 pb-8 md:pb-12 px-6 md:px-12 lg:px-24 relative overflow-hidden">
@@ -125,14 +141,13 @@ const Footer = () => {
               transition={{ duration: 0.8 }}
               className="text-left lg:text-right"
             >
-              <span className="text-xl md:text-3xl font-semibold tracking-tighter text-white block mb-1">
+              <Link to="/" className="text-xl md:text-3xl font-semibold tracking-tighter text-white block mb-1">
                 The Cool Kids.
-              </span>
+              </Link>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">Studio</span>
             </motion.div>
 
             <motion.button
-              // whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group cursor-pointer text-accent hover:border-accent/70 transition-all duration-500 shadow-xl"
