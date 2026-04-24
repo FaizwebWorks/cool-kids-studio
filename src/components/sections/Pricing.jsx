@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, Star, Crown, Lightning, Phone } from 'phosphor-react';
-import Button from './Button';
+import Button from '../common/Button';
 
 const packages = [
   {
@@ -102,7 +102,7 @@ const Pricing = () => {
                   transition={{ duration: 0.8, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
                   className="block text-accent font-heading"
                 >
-                  Zero <span className="text-primary">Hidden</span> Charges.
+                  Zero <span className="text-primary/95">Hidden</span> Charges.
                 </motion.span>
               </h2>
             </div>
@@ -116,7 +116,7 @@ const Pricing = () => {
                 className="space-y-6"
               >
                 <p className="text-lg md:text-xl text-text-secondary leading-tight font-medium">
-                  Every package includes <span className="text-primary italic">professional editing</span>, a private online gallery, and delivery within <span className="text-primary underline decoration-accent underline-offset-4">7 days</span>.
+                  Every package includes <span className="text-primary/95 italic">professional editing</span>, a private online gallery, and delivery within <span className="text-primary/95 underline decoration-accent underline-offset-4">7 days</span>.
                 </p>
                 
                 <div className="flex items-center gap-4">
@@ -129,7 +129,7 @@ const Pricing = () => {
                   </div>
                   <div className="h-8 w-px bg-primary/10" />
                   <p className="text-[10px] uppercase tracking-widest font-bold text-primary/40 leading-none">
-                    Trusted by <br /> <span className="text-primary text-xs">500+ Families</span>
+                    Trusted by <br /> <span className="text-primary/95 text-xs">500+ Families</span>
                   </p>
                 </div>
               </motion.div>
@@ -168,13 +168,13 @@ const Pricing = () => {
               className={`relative flex flex-col p-6 sm:p-8 md:p-10 rounded-[2rem] sm:rounded-[2.5rem] transition-all duration-500 border group
                 ${pkg.highlight 
                   ? "bg-primary text-bg border-primary shadow-2xl shadow-primary/20 scale-100 lg:scale-105 z-10" 
-                  : "bg-card/50 text-primary border-primary/5 hover:border-primary/20"
+                  : "bg-card/50 text-primary/95 border-primary/5 hover:border-primary/20"
                 }`}
             >
               {/* Badge */}
               <div className="flex justify-between items-start mb-8 sm:mb-10">
                 <span className={`px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest
-                  ${pkg.highlight ? "bg-accent text-primary" : "bg-primary/10 text-primary"}
+                  ${pkg.highlight ? "bg-accent text-primary/95" : "bg-primary/10 text-primary/95"}
                 `}>
                   {pkg.badge}
                 </span>
@@ -205,7 +205,7 @@ const Pricing = () => {
                 {pkg.features.map((feature, fIdx) => (
                   <div key={fIdx} className="flex items-start gap-3 group/item">
                     {feature.included ? (
-                      <CheckCircle size={18} sm:size={20} weight="bold" className={pkg.highlight ? "text-accent" : "text-primary"} />
+                      <CheckCircle size={18} sm:size={20} weight="bold" className={pkg.highlight ? "text-accent" : "text-primary/95"} />
                     ) : (
                       <XCircle size={18} sm:size={20} weight="bold" className="text-primary/20" />
                     )}

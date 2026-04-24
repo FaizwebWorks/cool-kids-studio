@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Baby, Calendar, Heart, ArrowRight } from 'phosphor-react';
-import Button from './Button';
+import Button from '../common/Button';
 
 const milestones = [
   {
@@ -65,7 +65,7 @@ const MilestoneReminder = () => {
           >
              <p className="text-lg md:text-xl text-text-secondary leading-snug font-medium">
               Babies grow fast. We make sure you 
-              <span className="text-primary italic"> never miss a moment </span> 
+              <span className="text-primary/95 italic"> never miss a moment </span> 
               by saving your child's milestones the day we meet them.
             </p>
           </motion.div>
@@ -88,14 +88,14 @@ const MilestoneReminder = () => {
               >
                 <div className="bg-white border border-primary/5 rounded-[2.5rem] p-8 md:p-10 flex flex-col gap-8 hover:border-accent/30 hover:shadow-2xl hover:shadow-accent/5 transition-all duration-700 h-full">
                   <div className="flex justify-between items-start">
-                    <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 group-hover:bg-accent group-hover:text-primary transition-all duration-500">
+                    <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 group-hover:bg-accent group-hover:text-primary/95 transition-all duration-500">
                       {ms.icon}
                     </div>
                     <span className="text-[10px] uppercase tracking-widest text-primary/30 font-bold">{ms.age}</span>
                   </div>
                   
                   <div>
-                    <h4 className="text-xl md:text-2xl font-heading uppercase mb-2 text-primary">{ms.label}</h4>
+                    <h4 className="text-xl md:text-2xl font-heading uppercase mb-2 text-primary/95">{ms.label}</h4>
                     <p className="text-text-secondary text-sm leading-relaxed">{ms.desc}</p>
                   </div>
 
@@ -122,7 +122,7 @@ const MilestoneReminder = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-3xl rounded-full" />
                 
                 <div className="flex items-center gap-6 mb-10">
-                  <div className="w-14 h-14 rounded-2xl bg-accent flex items-center justify-center text-primary shadow-lg shadow-accent/20">
+                  <div className="w-14 h-14 rounded-2xl bg-accent flex items-center justify-center text-primary/95 shadow-lg shadow-accent/20">
                     <Bell size={28} weight="fill" />
                   </div>
                   <div>
@@ -153,7 +153,7 @@ const MilestoneReminder = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl md:text-5xl font-heading uppercase leading-none mb-8 text-primary">
+              <h3 className="text-3xl md:text-5xl font-heading uppercase leading-none mb-8 text-primary/95">
                 One Less Thing <br />
                 <span className="text-accent italic">On Your List.</span>
               </h3>

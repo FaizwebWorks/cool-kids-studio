@@ -8,7 +8,7 @@ import {
   Camera,
   Image as ImageIcon,
 } from "phosphor-react";
-import Button from "./Button";
+import Button from "../common/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 

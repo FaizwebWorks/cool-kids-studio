@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo } from 'phosphor-react';
+import { useClock } from '../../hooks/useClock';
+
+const navLinks = [
+  { text: "HOME", href: "#home" },
+  { text: "SERVICES", href: "#services" },
+  { text: "GALLERY", href: "#gallery" },
+  { text: "PRICING", href: "#pricing" },
+  { text: "HOW IT WORKS", href: "#how-it-works" },
+  { text: "CONTACT", href: "#contact" }
+];
 
 const Navbar = () => {
-  const [time, setTime] = useState('');
+  const time = useClock();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { scrollY } = useScroll();
@@ -16,30 +26,6 @@ const Navbar = () => {
       setIsHidden(false);
     }
   });
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options = {
-        hour: 'numeric', minute: '2-digit', hour12: true,
-        timeZone: 'Asia/Kolkata'
-      };
-      setTime(`(${now.toLocaleTimeString('en-US', options)})`);
-    };
-
-    updateTime();
-    const timer = setInterval(updateTime, 60000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const navLinks = [
-    {text: "HOME", href: "#home"},
-    {text: "SERVICES", href: "#services"},
-    {text: "GALLERY", href: "#gallery"},
-    {text: "PRICING", href: "#pricing"},
-    {text: "HOW IT WORKS", href: "#how-it-works"},
-    {text: "CONTACT", href: "#contact"}
-  ];
 
   const menuVariants = {
     closed: { 
@@ -61,7 +47,9 @@ const Navbar = () => {
         }}
         animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
-        className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-bg/80 backdrop-blur-xl border-b border-primary/5"
+        className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-bg/80 backdrop-blur-xl"
+        role="navigation"
+        aria-label="Main Navigation"
       >
         
         {/* LEFT: MENU ICON */}
@@ -69,6 +57,9 @@ const Navbar = () => {
           type="button"
           className="flex flex-col w-fit justify-center gap-1.5 md:gap-2 cursor-pointer group z-[110] scale-90 md:scale-100 p-2 -ml-2 -mt-2 h-fit"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-expanded={isMenuOpen}
+          aria-controls="fullscreen-menu"
+          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
         >
           <motion.div 
             animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
@@ -86,15 +77,16 @@ const Navbar = () => {
             href="#home" 
             onClick={() => setIsMenuOpen(false)}
             className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95"
+            aria-label="The Cool Kids - Home"
           >
             The Cool Kids.
           </a>
         </div>
 
         {/* RIGHT: LOCATION & TIME */}
-        <div className="hidden sm:flex flex-col items-end text-[10px] md:text-sm font-medium tracking-wider leading-3 md:leading-4 text-primary/95 z-[110]">
+        <div className="hidden sm:flex flex-col items-end text-[10px] md:text-sm font-medium tracking-wider leading-3 md:leading-4 text-primary/95 z-[110]" aria-live="polite">
           <span>GUJARAT, INDIA</span>
-          <span className="opacity-60">{time}</span>
+          <span className="opacity-60" aria-label={`Current time in India: ${time}`}>{time}</span>
         </div>
       </motion.nav>
 
@@ -102,6 +94,7 @@ const Navbar = () => {
       <AnimatePresence mode="wait">
         {isMenuOpen && (
           <motion.div
+            id="fullscreen-menu"
             variants={menuVariants}
             initial="closed"
             animate="open"
@@ -137,8 +130,9 @@ const Navbar = () => {
                 >
                   <img 
                     src="/images/about.webp" 
-                    alt="Featured" 
+                    alt="Our studio space" 
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -154,11 +148,18 @@ const Navbar = () => {
 
                 {/* SOCIAL ICONS */}
                 <div className="flex gap-3 md:gap-4">
-                  {[FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo].map((Icon, i) => (
+                  {[
+                    { Icon: FacebookLogo, label: "Facebook" },
+                    { Icon: InstagramLogo, label: "Instagram" },
+                    { Icon: TwitterLogo, label: "Twitter" },
+                    { Icon: LinkedinLogo, label: "LinkedIn" }
+                  ].map(({ Icon, label }, i) => (
                     <motion.div
                       key={i}
                       whileHover={{ y: -5 }}
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary/95 hover:text-bg transition-colors duration-300 will-change-transform"
+                      role="button"
+                      aria-label={label}
                     >
                       <Icon size={18} weight="fill" />
                     </motion.div>

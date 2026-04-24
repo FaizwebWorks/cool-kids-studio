@@ -9,7 +9,7 @@ import {
   EnvelopeSimple,
   ArrowRight
 } from 'phosphor-react';
-import Button from './Button';
+import Button from '../common/Button';
 
 const Contact = () => {
   const contactInfo = [
@@ -84,7 +84,7 @@ const Contact = () => {
 
               <motion.h2 
                 variants={itemVariants}
-                className="text-7xl md:text-9xl lg:text-[11rem] font-heading uppercase leading-[0.85] tracking-tighter text-primary mb-8"
+                className="text-7xl md:text-9xl lg:text-[11rem] font-heading uppercase leading-[0.85] tracking-tight text-primary/95 mb-8"
               >
                 Let's <br />
                 <span className="text-accent italic font-light">Talk</span>
@@ -96,7 +96,7 @@ const Contact = () => {
                 className="text-xl md:text-2xl text-text-secondary max-w-lg leading-snug font-medium italic"
               >
                 Have a question? Not sure which package is right? 
-                <span className="text-primary block mt-2 not-italic">Just reach out — we're friendly, we promise.</span>
+                <span className="text-primary/95 block mt-2 not-italic">Just reach out — we're friendly, we promise.</span>
               </motion.p>
             </motion.div>
 
@@ -143,14 +143,14 @@ const Contact = () => {
                     variants={itemVariants}
                     className="flex items-start gap-6 group cursor-pointer"
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-primary text-accent flex items-center justify-center group-hover:bg-accent group-hover:text-primary transition-colors duration-500 shadow-lg shadow-primary/5">
+                    <div className="w-12 h-12 rounded-2xl bg-primary text-accent flex items-center justify-center group-hover:bg-accent group-hover:text-primary/95 transition-colors duration-500 shadow-lg shadow-primary/5">
                       {item.icon}
                     </div>
                     <div>
                       <span className="block text-[10px] font-bold uppercase tracking-widest text-primary/40 mb-1">
                         {item.label}
                       </span>
-                      <span className="text-lg md:text-xl font-semibold text-primary group-hover:text-accent transition-colors duration-300 underline underline-offset-4 decoration-primary/10">
+                      <span className="text-lg md:text-xl font-semibold text-primary/95 group-hover:text-accent transition-colors duration-300 underline underline-offset-4 decoration-primary/10">
                         {item.value}
                       </span>
                     </div>
@@ -166,11 +166,11 @@ const Contact = () => {
                   <div className="grid grid-cols-1 gap-4">
                     {workingHours.map((slot, index) => (
                       <div key={index} className="flex justify-between items-center group">
-                        <span className="text-sm font-bold text-primary/60 uppercase tracking-tighter group-hover:text-primary transition-colors">
+                        <span className="text-sm font-bold text-primary/60 uppercase tracking-tighter group-hover:text-primary/95 transition-colors">
                           {slot.day}
                         </span>
                         <div className="h-[1px] flex-grow mx-4 bg-primary/5 group-hover:bg-accent/20 transition-colors" />
-                        <span className="text-sm font-semibold text-primary italic">
+                        <span className="text-sm font-semibold text-primary/95 italic">
                           {slot.hours}
                         </span>
                       </div>

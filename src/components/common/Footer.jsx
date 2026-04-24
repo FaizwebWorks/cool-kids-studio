@@ -13,12 +13,12 @@ const Footer = () => {
 
   const footerLinks = {
     quickLinks: [
-      { name: "Home", href: "#" },
-      { name: "Services", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Gallery", href: "#" },
-      { name: "Contact", href: "#" },
-      { name: "Gift Cards", href: "#" }
+      { name: "Home", href: "#home" },
+      { name: "Services", href: "#services" },
+      { name: "Pricing", href: "#pricing" },
+      { name: "Gallery", href: "#gallery" },
+      { name: "Contact", href: "#contact" },
+      { name: "Gift Cards", href: "#gifts" }
     ],
     services: [
       { name: "Newborn", href: "#" },
@@ -100,7 +100,7 @@ const Footer = () => {
                     whileHover={{ y: -5 }}
                     className="flex items-center gap-3 group"
                   >
-                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-primary group-hover:border-accent transition-all duration-300 shrink-0">
+                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-primary/95 group-hover:border-accent transition-all duration-300 shrink-0">
                       {social.icon}
                     </div>
                     <div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Handshake, Ticket, UsersThree, Gift, ArrowRight } from 'phosphor-react';
-import Button from './Button';
+import Button from '../common/Button';
 
 const steps = [
   {
@@ -50,7 +50,7 @@ const ReferralProgram = () => {
               </span>
               <h2 className="text-4xl md:text-7xl lg:text-[6.5rem] font-heading uppercase leading-[0.85] tracking-tighter">
                 Refer a Friend. <br />
-                <span className="text-primary italic font-light opacity-30">Both of You Save.</span>
+                <span className="text-primary/95 italic font-light opacity-30">Both of You Save.</span>
               </h2>
             </motion.div>
           </div>
@@ -64,7 +64,7 @@ const ReferralProgram = () => {
             >
               <p className="text-lg md:text-xl text-text-secondary leading-snug font-medium">
                 Love your photos? Share the love — and get rewarded. It's that simple.
-                <span className="text-primary italic"> Happy clients</span> are our best marketing.
+                <span className="text-primary/95 italic"> Happy clients</span> are our best marketing.
               </p>
               <div className="h-px w-20 bg-accent" />
             </motion.div>
@@ -112,7 +112,7 @@ const ReferralProgram = () => {
                 </div>
                 <div>
                   <div className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2 font-bold">Account Credit</div>
-                  <div className="text-5xl font-heading uppercase text-primary">₹500 <span className="text-xl opacity-40 text-primary/60">Off</span></div>
+                  <div className="text-5xl font-heading uppercase text-primary/95">₹500 <span className="text-xl opacity-40 text-primary/60">Off</span></div>
                 </div>
                 <p className="text-xs text-text-secondary leading-relaxed uppercase tracking-widest font-medium">Your next session</p>
               </motion.div>
@@ -136,7 +136,7 @@ const ReferralProgram = () => {
                     {step.icon}
                   </div>
                   <div>
-                    <h4 className="text-primary font-bold uppercase tracking-wider text-sm mb-2">{step.title}</h4>
+                    <h4 className="text-primary/95 font-bold uppercase tracking-wider text-sm mb-2">{step.title}</h4>
                     <p className="text-text-secondary text-sm leading-relaxed max-w-sm">{step.desc}</p>
                   </div>
                 </motion.div>
