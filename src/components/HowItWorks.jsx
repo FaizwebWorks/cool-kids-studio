@@ -128,7 +128,7 @@ export default function HowItWorks() {
   }, [steps]);
 
   return (
-    <section className="py-16 bg-bg overflow-hidden relative">
+    <section id="how-it-works" className="py-16 bg-bg overflow-hidden relative">
       <div className="container mx-auto px-6 max-w-5xl">
         <header className="mb-16 md:mb-28 text-center md:text-left">
           <h2 className="text-5xl md:text-7xl font-heading text-primary/95 leading-tight tracking-tighter uppercase">

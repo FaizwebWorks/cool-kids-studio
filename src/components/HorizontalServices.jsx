@@ -84,7 +84,7 @@ export default function HorizontalServices() {
   return (
     <>
       {/* 🔥 SECTION TITLE */}
-      <div ref={titleRef} className="md:py-16 hidden md:block text-center bg-bg">
+      <div ref={titleRef} id="services" className="md:py-16 hidden md:block text-center bg-bg">
         <h2 className="text-6xl font-heading text-primary/95">
           Our Services
         </h2>
@@ -210,7 +210,7 @@ function MobileCarousel({ services }) {
 
 
   return (
-    <div className="md:hidden bg-bg pb-16">
+    <div id="services" className="md:hidden bg-bg pb-16">
 
       <div className="px-6 pt-10 pb-3">
         <h2 className="text-4xl font-heading text-primary/95">

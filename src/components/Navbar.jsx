@@ -33,7 +33,12 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    "HOME", "SERVICE", "GALLERY", "PRICING", "HOW IT WORKS", "CONTACT"
+    {text: "HOME", href: "#home"},
+    {text: "SERVICES", href: "#services"},
+    {text: "GALLERY", href: "#gallery"},
+    {text: "PRICING", href: "#pricing"},
+    {text: "HOW IT WORKS", href: "#how-it-works"},
+    {text: "CONTACT", href: "#contact"}
   ];
 
   const menuVariants = {
@@ -77,9 +82,13 @@ const Navbar = () => {
 
         {/* CENTER: LOGO */}
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
-          <span className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95">
+          <a 
+            href="#home" 
+            onClick={() => setIsMenuOpen(false)}
+            className="text-xl md:text-3xl font-semibold tracking-tight text-primary/95 hover:opacity-70 transition-opacity"
+          >
             The Cool Kids.
-          </span>
+          </a>
         </div>
 
         {/* RIGHT: LOCATION & TIME */}
@@ -103,16 +112,17 @@ const Navbar = () => {
             <div className="w-full md:w-1/2 flex flex-col gap-1 md:gap-4 order-1 mt-4 md:mt-0">
               {navLinks.map((link) => (
                 <div
-                  key={link}
+                  key={link.text}
                   className="overflow-hidden group relative"
                 >
                   <a 
-                    href="#" 
+                    href={link.href} 
+                    onClick={() => setIsMenuOpen(false)}
                     className="relative text-5xl sm:text-5xl md:text-6xl font-semibold font-heading text-primary/95 inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
                   >
                     {/* HOVER BACKGROUND */}
                     <span className="absolute inset-0 bg-accent -z-10 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.76,0,0.24,1] will-change-transform"></span>
-                    {link}
+                    {link.text}
                   </a>
                 </div>
               ))}

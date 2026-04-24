@@ -58,6 +58,9 @@ const App = () => {
 
   return (
     <main className="bg-bg relative min-h-screen">
+      {/* Scroll Anchor for Home */}
+      <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" />
+
       <Navbar />
 
       <div className="hidden md:block fixed top-0 left-0 w-full h-screen z-0">
@@ -65,13 +68,15 @@ const App = () => {
       </div>
 
       <div className="md:hidden relative z-10">
+        <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" />
         <MobileHero />
       </div>
 
       <div className="hidden md:block relative z-10 pointer-events-none">
+
         <ScrollGallery />
       </div>
-      
+
       <div className="relative z-20">
         <HorizontalServices />
         <Stats />

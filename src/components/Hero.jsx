@@ -81,7 +81,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="h-full w-full flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
+    <section id="home" className="h-full w-full flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg">
 
       <div className="space-y-1 md:space-y-4 max-w-[95vw] pointer-events-auto">
         {renderedContent}

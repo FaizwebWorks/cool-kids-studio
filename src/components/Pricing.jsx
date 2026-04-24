@@ -64,7 +64,7 @@ const packages = [
 
 const Pricing = () => {
   return (
-    <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-bg relative overflow-hidden">
+    <section id="pricing" className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-bg relative overflow-hidden">
       {/* Decorative Background Element */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-accent/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       
