@@ -138,11 +138,6 @@ const PageTransition = () => {
           />
         ))}
       </div>
-
-      <div className="absolute inset-0 flex items-center">
-        <div ref={glowRef} className="h-10 w-[30vw] rounded-full bg-accent/30 blur-2xl will-change-transform" />
-        <div ref={accentRef} className="-ml-[30vw] h-px w-[30vw] bg-accent will-change-transform" />
-      </div>
     </div>
   );
 };
