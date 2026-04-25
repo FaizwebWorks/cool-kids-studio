@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, WhatsappLogo, ArrowRight, Sparkle } from 'phosphor-react';
+import { WhatsappLogo, Sparkle } from 'phosphor-react';
 import Button from './Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const CTABanner = () => {
+  const navigateToSection = useSectionNavigation();
 
   const whatsappNumber = "9023827460";
   const whatsappMsg = encodeURIComponent("Hi The Cool Kids Studio! I just saw your beautiful work on the website and would love to chat about booking a session.");
@@ -63,14 +65,14 @@ const CTABanner = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Button
               text="Book My Session Now"
-              onClick={() => window.location.href = "#"}
+              onClick={() => navigateToSection('contact')}
               primary
             />
 
             <motion.button
               whileHover="hover"
               whileTap={{ scale: 0.96 }}
-              onClick={() => window.location.href = whatsappUrl}
+              onClick={() => window.open(whatsappUrl, '_blank', 'noopener,noreferrer')}
               className="relative flex items-center justify-center gap-3 px-8 py-4 rounded-full overflow-hidden border transition-all duration-500 group cursor-pointer bg-bg text-primary/95 hover:bg-accent"
             >
 

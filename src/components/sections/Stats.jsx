@@ -1,9 +1,9 @@
-import { useEffect, useRef, memo } from "react";
+import { useCallback, useEffect, useRef, memo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import stats from "../../data/stats";
 
-const StatItem = memo(({ stat, index, numberRefs }) => (
+const StatItem = memo(({ stat, index, setNumberRef }) => (
   <div className="stat-item group relative">
     <div className="h-full p-8 md:p-12 bg-card/40 backdrop-blur-md border border-border/50 rounded-[2.5rem] flex flex-col items-center justify-center text-center hover:bg-card/60 transition-all duration-500 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/5">
       
@@ -12,7 +12,7 @@ const StatItem = memo(({ stat, index, numberRefs }) => (
       <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-accent/20 rounded-bl-2xl group-hover:border-accent/60 transition-colors duration-500" />
 
       <div 
-        ref={(el) => (numberRefs.current[index] = el)}
+        ref={(el) => setNumberRef(index, el)}
         className="text-5xl md:text-7xl lg:text-8xl font-heading text-primary/95 group-hover:scale-110 transition-transform duration-500"
       >
         0
@@ -32,6 +32,9 @@ StatItem.displayName = 'StatItem';
 export default function Stats() {
   const sectionRef = useRef(null);
   const numberRefs = useRef([]);
+  const setNumberRef = useCallback((index, element) => {
+    numberRefs.current[index] = element;
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -96,7 +99,7 @@ export default function Stats() {
               key={index} 
               stat={stat} 
               index={index} 
-              numberRefs={numberRefs} 
+              setNumberRef={setNumberRef} 
             />
           ))}
         </div>

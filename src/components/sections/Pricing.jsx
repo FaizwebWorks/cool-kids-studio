@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, Star, Crown, Lightning, Phone } from 'phosphor-react';
+import { CheckCircle, XCircle, Star, Lightning } from 'phosphor-react';
 import Button from '../common/Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const packages = [
   {
@@ -63,6 +64,8 @@ const packages = [
 ];
 
 const Pricing = () => {
+  const navigateToSection = useSectionNavigation();
+
   return (
     <section id="pricing" className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-bg relative overflow-hidden">
       {/* Decorative Background Element */}
@@ -143,9 +146,9 @@ const Pricing = () => {
             className="absolute -top-12 right-0 hidden xl:block pointer-events-none"
           >
             <svg viewBox="0 0 100 100" className="w-32 h-32 opacity-10">
-              <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+              <path id="pricingCirclePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
               <text className="text-[10px] font-bold uppercase tracking-[0.2em] fill-primary">
-                <textPath xlinkHref="#circlePath">
+                <textPath href="#pricingCirclePath">
                   • satisfaction guaranteed • premium quality •
                 </textPath>
               </text>
@@ -205,9 +208,9 @@ const Pricing = () => {
                 {pkg.features.map((feature, fIdx) => (
                   <div key={fIdx} className="flex items-start gap-3 group/item">
                     {feature.included ? (
-                      <CheckCircle size={18} sm:size={20} weight="bold" className={pkg.highlight ? "text-accent" : "text-primary/95"} />
+                      <CheckCircle size={20} weight="bold" className={pkg.highlight ? "text-accent" : "text-primary/95"} />
                     ) : (
-                      <XCircle size={18} sm:size={20} weight="bold" className="text-primary/20" />
+                      <XCircle size={20} weight="bold" className="text-primary/20" />
                     )}
                     <span className={`text-xs sm:text-sm font-medium ${!feature.included && "opacity-30 line-through"}`}>
                       {feature.text}
@@ -221,7 +224,7 @@ const Pricing = () => {
                 <Button 
                   text={pkg.cta} 
                   primary={pkg.highlight} 
-                  onClick={() => console.log(`Booking ${pkg.name}`)}
+                  onClick={() => navigateToSection('contact')}
                 />
               </div>
             </motion.div>
@@ -251,7 +254,7 @@ const Pricing = () => {
             <div className="group relative">
               <Button 
                 text="Request Custom Quote" 
-                onClick={() => console.log("Custom Quote")}
+                onClick={() => navigateToSection('contact')}
                 primary
               />
             </div>

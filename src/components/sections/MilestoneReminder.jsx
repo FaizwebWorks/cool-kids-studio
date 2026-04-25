@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bell, Baby, Calendar, Heart, ArrowRight } from 'phosphor-react';
+import { Bell, Baby, Calendar, Heart } from 'phosphor-react';
 import Button from '../common/Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const milestones = [
   {
@@ -31,6 +32,8 @@ const milestones = [
 ];
 
 const MilestoneReminder = () => {
+  const navigateToSection = useSectionNavigation();
+
   return (
     <section className="py-24 px-6 md:px-12 lg:px-24 bg-bg overflow-hidden relative">
       {/* Decorative Background Glow */}
@@ -163,7 +166,7 @@ const MilestoneReminder = () => {
               </p>
               <Button 
                 text="Book a Newborn Shoot"
-                onClick={() => console.log("Booking Newborn Shoot")}
+                onClick={() => navigateToSection('contact')}
                 primary
               />
             </motion.div>
@@ -172,16 +175,6 @@ const MilestoneReminder = () => {
 
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes swing {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(15deg); }
-          75% { transform: rotate(-15deg); }
-        }
-        .animate-swing {
-          animation: swing 2s infinite ease-in-out;
-        }
-      `}} />
     </section>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreditCard, Sparkle, CheckCircle, ArrowRight, Selection, ShieldCheck, EnvelopeOpen, CalendarCheck } from 'phosphor-react';
 import Button from '../common/Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const giftAmounts = [
   { label: "Starter", value: "2000" },
@@ -45,6 +46,7 @@ const GiftCards = () => {
   const [selectedAmount, setSelectedAmount] = useState("5000");
   const [isCustom, setIsCustom] = useState(false);
   const [customVal, setCustomVal] = useState("");
+  const navigateToSection = useSectionNavigation();
 
   const handleSelect = (amt) => {
     if (amt.label === "Custom") {
@@ -221,7 +223,7 @@ const GiftCards = () => {
               <div className="pt-4">
                 <Button 
                   text="Buy a Gift Card"
-                  onClick={() => console.log("Buying Gift Card for:", selectedAmount)}
+                  onClick={() => navigateToSection('contact')}
                   primary
                 />
               </div>

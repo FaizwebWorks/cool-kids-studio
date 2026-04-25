@@ -2,6 +2,8 @@ import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
 import Button from "../common/Button";
 import { services } from "../../data/services";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { requestScrollTriggerRefresh } from "../../utils/scrollTriggerRefresh";
 
 const ServiceCard = memo(({ service, index }) => (
   <div className="w-screen h-screen flex items-center justify-center px-12 md:px-20 lg:px-32 shrink-0">
@@ -88,8 +90,12 @@ export default function HorizontalServices() {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const titleRef = useRef(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
+    if (!isDesktop) return undefined;
+
+    const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       // Title Animation
       if (titleRef.current) {
@@ -107,33 +113,44 @@ export default function HorizontalServices() {
       }
 
       // Horizontal Scroll (Desktop Only)
-      const mm = gsap.matchMedia();
       mm.add("(min-width: 768px)", () => {
         if (containerRef.current) {
-          const scrollAmount = containerRef.current.scrollWidth - window.innerWidth;
-          
-          gsap.to(containerRef.current, {
-            x: -scrollAmount,
-            ease: "none",
+          const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top top",
-              end: () => `+=${scrollAmount}`,
+              end: () => `+=${containerRef.current.scrollWidth - window.innerWidth}`,
               pin: true,
               scrub: 1,
               invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
+          });
+          
+          tl.to(containerRef.current, {
+            x: () => -(containerRef.current.scrollWidth - window.innerWidth),
+            ease: "none",
           });
         }
       });
     }, sectionRef);
 
-    return () => ctx.revert();
-  }, []);
+    const cleanupRefresh = requestScrollTriggerRefresh(260);
+
+    return () => {
+      mm.revert();
+      ctx.revert();
+      cleanupRefresh();
+    };
+  }, [isDesktop]);
+
+  if (!isDesktop) {
+    return <MobileCarousel />;
+  }
 
   return (
     <>
-      <div ref={titleRef} id="services" className="md:py-16 hidden md:block text-center bg-bg">
+      <div ref={titleRef} id="services" className="md:py-16 text-center bg-bg">
         <h2 className="text-6xl font-heading text-primary/95 uppercase">
           Our Services
         </h2>
@@ -142,15 +159,13 @@ export default function HorizontalServices() {
         </p>
       </div>
 
-      <section ref={sectionRef} className="hidden md:block relative bg-bg overflow-hidden">
+      <section ref={sectionRef} className="relative bg-bg overflow-hidden">
         <div ref={containerRef} className="flex h-screen will-change-transform">
           {services.map((service, i) => (
             <ServiceCard key={i} service={service} index={i} />
           ))}
         </div>
       </section>
-
-      <MobileCarousel />
     </>
   );
 }
@@ -162,28 +177,58 @@ function MobileCarousel() {
     const el = scrollRef.current;
     if (!el || window.innerWidth >= 768) return;
 
-    const timer = setTimeout(() => {
+    let tl;
+    let didInteract = false;
+
+    const cancelPeek = () => {
+      didInteract = true;
+      if (!tl) return;
+      tl.kill();
+      el.style.scrollSnapType = "";
+      el.style.scrollBehavior = "";
+    };
+
+    el.addEventListener("touchstart", cancelPeek, { passive: true, once: true });
+    el.addEventListener("pointerdown", cancelPeek, { passive: true, once: true });
+    el.addEventListener("wheel", cancelPeek, { passive: true, once: true });
+
+    const timer = window.setTimeout(() => {
+      if (didInteract) return;
+
       const card = el.querySelector("[data-card]");
       const cardWidth = card?.offsetWidth || 300;
+      const peekDistance = Math.min(cardWidth * 0.38, 132);
 
       el.style.scrollSnapType = "none";
-      
-      const tl = gsap.timeline({
+      el.style.scrollBehavior = "auto";
+
+      tl = gsap.timeline({
         onComplete: () => {
-          el.style.scrollSnapType = "x mandatory";
-        }
+          el.style.scrollSnapType = "";
+          el.style.scrollBehavior = "";
+        },
       });
 
-      tl.to(el, { scrollLeft: cardWidth * 0.35, duration: 0.7, ease: "power2.inOut" })
-        .to(el, { scrollLeft: 0, duration: 0.7, ease: "power2.inOut", delay: 0.3 });
-        
+      tl
+        .to(el, { scrollLeft: peekDistance, duration: 0.95, ease: "sine.inOut" })
+        .to(el, { scrollLeft: 0, duration: 0.95, ease: "sine.inOut" })
+        .to(el, { scrollLeft: peekDistance * 0.72, duration: 0.8, ease: "sine.inOut" }, "+=0.18")
+        .to(el, { scrollLeft: 0, duration: 0.9, ease: "sine.inOut" });
     }, 1200);
 
-    return () => clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+      if (tl) tl.kill();
+      el.removeEventListener("touchstart", cancelPeek);
+      el.removeEventListener("pointerdown", cancelPeek);
+      el.removeEventListener("wheel", cancelPeek);
+      el.style.scrollSnapType = "";
+      el.style.scrollBehavior = "";
+    };
   }, []);
 
   return (
-    <div id="services-mobile" className="md:hidden bg-bg pb-16">
+    <div id="services" className="bg-bg pb-16">
       <div className="px-6 pt-10 pb-3">
         <h2 className="text-4xl font-heading text-primary/95 uppercase">
           Our Services

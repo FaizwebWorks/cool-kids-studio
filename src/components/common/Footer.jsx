@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import TransitionLink from './TransitionLink';
 import { 
   InstagramLogo, 
   WhatsappLogo, 
@@ -53,7 +53,7 @@ const Footer = () => {
 
   // Animated Link Component for consistency
   const AnimatedLink = ({ name, href }) => {
-    const isInternal = href.startsWith('/') && !href.includes('#');
+    const isInternal = href.startsWith('/') && !href.startsWith('http');
 
     const content = (
       <div className="flex flex-col transition-transform duration-500 ease-[0.76,0,0.24,1] group-hover:-translate-y-full">
@@ -69,10 +69,10 @@ const Footer = () => {
     return (
       <li>
         {isInternal ? (
-          <Link to={href} className="group relative w-fit block overflow-hidden py-1">
+          <TransitionLink to={href} className="group relative w-fit block overflow-hidden py-1">
             {content}
             <div className="absolute bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-500 group-hover:w-full opacity-0 group-hover:opacity-100" />
-          </Link>
+          </TransitionLink>
         ) : (
           <a href={href} className="group relative w-fit block overflow-hidden py-1">
             {content}
@@ -141,9 +141,9 @@ const Footer = () => {
               transition={{ duration: 0.8 }}
               className="text-left lg:text-right"
             >
-              <Link to="/" className="text-xl md:text-3xl font-semibold tracking-tighter text-white block mb-1">
+              <TransitionLink to="/" className="text-xl md:text-3xl font-semibold tracking-tighter text-white block mb-1">
                 The Cool Kids.
-              </Link>
+              </TransitionLink>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">Studio</span>
             </motion.div>
 

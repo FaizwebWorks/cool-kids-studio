@@ -1,6 +1,5 @@
-import React, { Suspense, lazy, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Lenis from 'lenis';
+import React, { Suspense, lazy, useCallback, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,6 +10,14 @@ gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/common/Navbar';
 import { HeroSkeleton, SectionSkeleton } from './components/common/Skeleton';
 import ScrollToTop from './utils/ScrollToTop';
+import InitialLoader from './components/common/InitialLoader';
+import { useMediaQuery } from './hooks/useMediaQuery';
+
+// Transition Components
+import PageTransition from './components/common/PageTransition';
+import ScrollTriggerManager from './components/common/ScrollTriggerManager';
+import { LenisInitializer } from './hooks/useLenis';
+import TransitionLayout from './components/layout/TransitionLayout';
 
 // Lazy Sections
 const Hero = lazy(() => import('./components/sections/Hero'));
@@ -35,25 +42,29 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 
-const LandingPage = () => (
+const LandingPage = ({ isDesktop }) => (
   <>
-    <div className="hidden md:block fixed top-0 left-0 w-full h-screen z-0">
-      <Suspense fallback={<HeroSkeleton />}>
-        <Hero />
-      </Suspense>
-    </div>
+    {isDesktop ? (
+      <>
+        <div className="fixed top-0 left-0 w-full h-screen z-0">
+          <Suspense fallback={<HeroSkeleton />}>
+            <Hero />
+          </Suspense>
+        </div>
 
-    <div className="md:hidden relative z-10">
-      <Suspense fallback={<HeroSkeleton />}>
-        <MobileHero />
-      </Suspense>
-    </div>
-
-    <div className="hidden md:block relative z-10 pointer-events-none">
-      <Suspense fallback={null}>
-        <ScrollGallery />
-      </Suspense>
-    </div>
+        <div className="relative z-10 pointer-events-none">
+          <Suspense fallback={null}>
+            <ScrollGallery />
+          </Suspense>
+        </div>
+      </>
+    ) : (
+      <div className="relative z-10">
+        <Suspense fallback={<HeroSkeleton />}>
+          <MobileHero />
+        </Suspense>
+      </div>
+    )}
 
     <div className="relative z-20">
       <Suspense fallback={<SectionSkeleton />}>
@@ -88,63 +99,34 @@ const LandingPage = () => (
 );
 
 const App = () => {
-  const location = useLocation();
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
-      anchors: true,
-    });
-
-    const raf = (time) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-
-    const requestID = requestAnimationFrame(raf);
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
-
-    const handleLoad = () => {
-      ScrollTrigger.refresh();
-    };
-
-    window.addEventListener('load', handleLoad);
-
-    return () => {
-      lenis.destroy();
-      cancelAnimationFrame(requestID);
-      window.removeEventListener('load', handleLoad);
-      gsap.ticker.remove(lenis.raf);
-    };
+  const handleLoaderComplete = useCallback(() => {
+    setIsInitialLoading(false);
   }, []);
 
-  // Check if we are on a legal page to determine navbar/footer visibility
-  // Actually, we want them everywhere, but Navbar links should point back to home
-  
   return (
-    <main className="bg-bg relative min-h-screen">
+    <main className="bg-bg relative min-h-screen overflow-x-hidden">
+      {isInitialLoading && <InitialLoader onComplete={handleLoaderComplete} />}
+
+      <LenisInitializer />
+      <ScrollTriggerManager />
+      <PageTransition />
       <ScrollToTop />
+      
       <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" aria-hidden="true" />
 
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Navbar />
-            <LandingPage />
-          </>
-        } />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
-      </Routes>
+      <Navbar />
+
+      <TransitionLayout>
+        <Routes>
+          <Route path="/" element={<LandingPage isDesktop={isDesktop} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+        </Routes>
+      </TransitionLayout>
     </main>
   );
 };

@@ -1,5 +1,7 @@
 import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { requestScrollTriggerRefresh } from "../../utils/scrollTriggerRefresh";
 
 const imageData = [
   {
@@ -62,9 +64,8 @@ export default function ScrollGallery() {
     const imagesRef = useRef([]);
 
     useEffect(() => {
+        const mm = gsap.matchMedia();
         const ctx = gsap.context(() => {
-            const mm = gsap.matchMedia();
-            
             mm.add({
               isDesktop: "(min-width: 768px)",
               isMobile: "(max-width: 767px)"
@@ -92,7 +93,13 @@ export default function ScrollGallery() {
             });
         }, containerRef);
 
-        return () => ctx.revert();
+        const cleanupRefresh = requestScrollTriggerRefresh(240);
+
+        return () => {
+            mm.revert();
+            ctx.revert();
+            cleanupRefresh();
+        };
     }, []);
 
     return (

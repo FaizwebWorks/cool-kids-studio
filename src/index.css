@@ -51,3 +51,64 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+}
+
+.animate-swing {
+  animation: swing 2s infinite ease-in-out;
+}
+
+.marquee-container {
+  display: flex;
+  width: max-content;
+  gap: 0.5rem;
+}
+
+.marquee-left {
+  animation: scroll-left 50s linear infinite;
+}
+
+.marquee-right {
+  animation: scroll-right 50s linear infinite;
+}
+
+.marquee-container:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.fade-left {
+  background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
+}
+
+.fade-right {
+  background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
+}
