@@ -110,25 +110,38 @@ export default function HorizontalServices() {
       const mm = gsap.matchMedia();
       mm.add("(min-width: 768px)", () => {
         if (containerRef.current) {
-          const scrollAmount = containerRef.current.scrollWidth - window.innerWidth;
-          
-          gsap.to(containerRef.current, {
-            x: -scrollAmount,
-            ease: "none",
+          // Use a slight delay to ensure widths are calculated after initial render
+          const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top top",
-              end: () => `+=${scrollAmount}`,
+              end: () => `+=${containerRef.current.scrollWidth - window.innerWidth}`,
               pin: true,
               scrub: 1,
               invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
+          });
+          
+          tl.to(containerRef.current, {
+            x: () => -(containerRef.current.scrollWidth - window.innerWidth),
+            ease: "none",
           });
         }
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    // Final refresh to catch any missed layout changes
+    const timer = setTimeout(() => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        ScrollTrigger.refresh();
+      });
+    }, 1500);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (

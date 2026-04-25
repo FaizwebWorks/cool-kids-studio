@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo } from 'phosphor-react';
 import { useClock } from '../../hooks/useClock';
+import TransitionLink from './TransitionLink';
 
 const navLinks = [
   { text: "HOME", href: "/" },
-  { text: "SERVICES", href: "#services" },
-  { text: "GALLERY", href: "#gallery" },
-  { text: "PRICING", href: "#pricing" },
-  { text: "HOW IT WORKS", href: "#how-it-works" },
-  { text: "CONTACT", href: "#contact" }
+  { text: "SERVICES", href: "/#services" },
+  { text: "GALLERY", href: "/#gallery" },
+  { text: "PRICING", href: "/#pricing" },
+  { text: "HOW IT WORKS", href: "/#how-it-works" },
+  { text: "CONTACT", href: "/#contact" }
 ];
 
 const Navbar = () => {
@@ -73,14 +74,14 @@ const Navbar = () => {
 
         {/* CENTER: LOGO */}
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
-          <a 
-            href="#home" 
+          <TransitionLink 
+            to="/" 
             onClick={() => setIsMenuOpen(false)}
             className="text-xl md:text-3xl font-semibold tracking-tighter text-primary/95"
             aria-label="The Cool Kids - Home"
           >
             The Cool Kids.
-          </a>
+          </TransitionLink>
         </div>
 
         {/* RIGHT: LOCATION & TIME */}
@@ -108,15 +109,15 @@ const Navbar = () => {
                   key={link.text}
                   className="overflow-hidden group relative"
                 >
-                  <a 
-                    href={link.href} 
+                  <TransitionLink 
+                    to={link.href} 
                     onClick={() => setIsMenuOpen(false)}
                     className="relative text-5xl sm:text-5xl md:text-6xl font-semibold font-heading text-primary/95 inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
                   >
                     {/* HOVER BACKGROUND */}
                     <span className="absolute inset-0 bg-accent -z-10 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.76,0,0.24,1] will-change-transform"></span>
                     {link.text}
-                  </a>
+                  </TransitionLink>
                 </div>
               ))}
             </div>

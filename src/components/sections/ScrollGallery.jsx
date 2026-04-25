@@ -1,5 +1,6 @@
 import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const imageData = [
   {
@@ -92,7 +93,15 @@ export default function ScrollGallery() {
             });
         }, containerRef);
 
-        return () => ctx.revert();
+        // Force a refresh after a short delay to ensure Lenis and layout are ready
+        const timer = setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 1000);
+
+        return () => {
+            ctx.revert();
+            clearTimeout(timer);
+        };
     }, []);
 
     return (

@@ -1,6 +1,5 @@
-import React, { Suspense, lazy, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Lenis from 'lenis';
+import React, { Suspense, lazy } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,6 +10,12 @@ gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/common/Navbar';
 import { HeroSkeleton, SectionSkeleton } from './components/common/Skeleton';
 import ScrollToTop from './utils/ScrollToTop';
+
+// Transition Components
+import PageTransition from './components/common/PageTransition';
+import ScrollTriggerManager from './components/common/ScrollTriggerManager';
+import { LenisInitializer } from './hooks/useLenis';
+import TransitionLayout from './components/layout/TransitionLayout';
 
 // Lazy Sections
 const Hero = lazy(() => import('./components/sections/Hero'));
@@ -88,63 +93,25 @@ const LandingPage = () => (
 );
 
 const App = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
-      anchors: true,
-    });
-
-    const raf = (time) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-
-    const requestID = requestAnimationFrame(raf);
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
-
-    const handleLoad = () => {
-      ScrollTrigger.refresh();
-    };
-
-    window.addEventListener('load', handleLoad);
-
-    return () => {
-      lenis.destroy();
-      cancelAnimationFrame(requestID);
-      window.removeEventListener('load', handleLoad);
-      gsap.ticker.remove(lenis.raf);
-    };
-  }, []);
-
-  // Check if we are on a legal page to determine navbar/footer visibility
-  // Actually, we want them everywhere, but Navbar links should point back to home
-  
   return (
-    <main className="bg-bg relative min-h-screen">
+    <main className="bg-bg relative min-h-screen overflow-x-hidden">
+      <LenisInitializer />
+      <ScrollTriggerManager />
+      <PageTransition />
       <ScrollToTop />
+      
       <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" aria-hidden="true" />
 
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Navbar />
-            <LandingPage />
-          </>
-        } />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
-      </Routes>
+      <Navbar />
+
+      <TransitionLayout>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+        </Routes>
+      </TransitionLayout>
     </main>
   );
 };
