@@ -45,7 +45,7 @@ const TransitionLink = ({ to, children, className, ...props }) => {
     const isSamePathHash = isSamePath && isHashNavigation;
     const isSameLocation = target.fullPath === `${location.pathname}${location.hash}`;
 
-    if (isSameLocation || (isSamePath && !isHashNavigation)) {
+    if (isSameLocation) {
       if (props.onClick) await props.onClick(e);
       return;
     }

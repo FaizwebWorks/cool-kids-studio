@@ -1,18 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-const CIRCLE_RADIUS = 52;
-const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
-
 const InitialLoader = ({ onComplete }) => {
   const containerRef = useRef(null);
-  const frameRef = useRef(null);
-  const progressCircleRef = useRef(null);
+  const backdropRef = useRef(null);
+  const topPanelRef = useRef(null);
+  const bottomPanelRef = useRef(null);
+  const counterWrapRef = useRef(null);
   const counterRef = useRef(null);
-  const labelRef = useRef(null);
-  const titleRef = useRef(null);
-  const leftPanelRef = useRef(null);
-  const rightPanelRef = useRef(null);
+  const captionRef = useRef(null);
+  const progressWrapRef = useRef(null);
+  const progressRef = useRef(null);
   const finishedRef = useRef(false);
 
   useEffect(() => {
@@ -28,21 +26,14 @@ const InitialLoader = ({ onComplete }) => {
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    gsap.set(progressCircleRef.current, {
-      strokeDasharray: CIRCUMFERENCE,
-      strokeDashoffset: CIRCUMFERENCE,
-      transformOrigin: '50% 50%',
-      rotate: -90,
-      svgOrigin: '60 60',
-    });
-
     if (prefersReducedMotion) {
       if (counterRef.current) counterRef.current.textContent = '100';
-      gsap.set(progressCircleRef.current, { strokeDashoffset: 0 });
+      gsap.set(progressRef.current, { scaleX: 1, transformOrigin: 'left center' });
+      gsap.set(progressWrapRef.current, { autoAlpha: 0 });
       gsap.to(containerRef.current, {
         autoAlpha: 0,
-        duration: 0.22,
-        delay: 0.12,
+        duration: 0.25,
+        delay: 0.15,
         onComplete: finishLoader,
       });
 
@@ -55,71 +46,71 @@ const InitialLoader = ({ onComplete }) => {
     const timeline = gsap.timeline({ onComplete: finishLoader });
 
     timeline
-      .set([leftPanelRef.current, rightPanelRef.current], { xPercent: 0 })
-      .set(frameRef.current, { scale: 0.82, autoAlpha: 0 })
-      .set([labelRef.current, titleRef.current], { y: 14, autoAlpha: 0 })
-      .to(frameRef.current, {
-        scale: 1,
-        autoAlpha: 1,
-        duration: 0.7,
-        ease: 'power3.out',
-      }, 0)
-      .to(titleRef.current, {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.5,
-        ease: 'power2.out',
-      }, 0.12)
-      .to(labelRef.current, {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.46,
-        ease: 'power2.out',
-      }, 0.2)
+      .set(backdropRef.current, {
+        backdropFilter: 'blur(24px)',
+        backgroundColor: 'rgba(26, 26, 26, 0.82)',
+      })
+      .set(progressRef.current, { transformOrigin: 'left center', scaleX: 0 })
       .to(counter, {
         value: 100,
-        duration: 2.25,
-        ease: 'power2.out',
+        duration: 2.3,
+        ease: 'power3.out',
         onUpdate: () => {
           if (!counterRef.current) return;
-          counterRef.current.textContent = String(Math.round(counter.value)).padStart(2, '0');
+          const value = Math.round(counter.value);
+          counterRef.current.textContent = String(value).padStart(2, '0');
         },
-      }, 0.04)
-      .to(progressCircleRef.current, {
-        strokeDashoffset: 0,
-        duration: 2.25,
-        ease: 'power2.inOut',
-      }, 0.04)
-      .to(frameRef.current, {
-        rotate: 15,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      }, 2.2)
-      .to(frameRef.current, {
-        rotate: 0,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      }, 2.55)
-      .to([frameRef.current, labelRef.current, titleRef.current], {
+      }, 0)
+      .to(progressRef.current, {
+        scaleX: 1,
+        duration: 2.3,
+        ease: 'power3.inOut',
+      }, 0)
+      .to(backdropRef.current, {
+        backdropFilter: 'blur(18px)',
+        backgroundColor: 'rgba(26, 26, 26, 0.72)',
+        duration: 2.2,
+        ease: 'power2.out',
+      }, 0)
+      .to(captionRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      }, 0.3)
+      .to(progressWrapRef.current, {
         autoAlpha: 0,
-        y: -10,
-        duration: 0.3,
-        ease: 'power2.in',
-      }, 2.95)
-      .to(leftPanelRef.current, {
-        xPercent: -102,
-        duration: 1,
+        scaleX: 0.72,
+        y: -2,
+        duration: 0.32,
+        ease: 'power3.in',
+      }, 2.28)
+      .to([counterWrapRef.current, captionRef.current], {
+        autoAlpha: 0,
+        y: -18,
+        duration: 0.42,
+        ease: 'power3.in',
+      }, 2.42)
+      .to(topPanelRef.current, {
+        yPercent: -110,
+        duration: 1.65,
         ease: 'expo.inOut',
-      }, 3.06)
-      .to(rightPanelRef.current, {
-        xPercent: 102,
-        duration: 1,
+      }, 2.7)
+      .to(bottomPanelRef.current, {
+        yPercent: 110,
+        duration: 1.65,
         ease: 'expo.inOut',
-      }, 3.06)
+      }, 2.7)
+      .to(backdropRef.current, {
+        backdropFilter: 'blur(0px)',
+        backgroundColor: 'rgba(26, 26, 26, 0)',
+        duration: 1.8,
+        ease: 'sine.inOut',
+      }, 2.82)
       .to(containerRef.current, {
         autoAlpha: 0,
-        duration: 0.22,
-      }, 3.86);
+        duration: 0.2,
+      }, 4.45);
 
     return () => {
       timeline.kill();
@@ -128,62 +119,38 @@ const InitialLoader = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-[10000] pointer-events-none">
-      <div className="absolute inset-0 bg-bg" />
-
+    <div ref={containerRef} className="fixed inset-0 z-[10000] overflow-hidden pointer-events-none">
       <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 1px 1px, rgba(26, 26, 26, 0.16) 1px, transparent 0)',
-          backgroundSize: '16px 16px',
-        }}
+        ref={backdropRef}
+        className="absolute inset-0 bg-primary/80 backdrop-blur-2xl will-change-[backdrop-filter,background-color]"
       />
 
-      <div ref={leftPanelRef} className="absolute inset-y-0 left-0 w-1/2 bg-primary" />
-      <div ref={rightPanelRef} className="absolute inset-y-0 right-0 w-1/2 bg-primary" />
+      <div ref={topPanelRef} className="absolute inset-x-0 top-0 h-[calc(50%+2px)] bg-primary will-change-transform" />
+      <div ref={bottomPanelRef} className="absolute inset-x-0 bottom-0 h-[calc(50%+2px)] bg-primary will-change-transform" />
 
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-bg">
-        <div className="overflow-hidden">
-          <p ref={labelRef} className="text-[10px] uppercase tracking-[0.32em] text-bg/60 md:text-xs">
-            Loading Visual Story
-          </p>
-        </div>
+        <p
+          ref={captionRef}
+          className="font-heading text-sm uppercase tracking-tight text-bg/75 opacity-0 translate-y-3 transition-all ease-linear duration-200 md:text-2xl"
+        >
+          The Cool Kids
+        </p>
 
-        <div className="overflow-hidden">
-          <h2
-            ref={titleRef}
-            className="mt-4 font-heading text-[clamp(1.7rem,4vw,2.8rem)] uppercase tracking-[0.2em] text-accent"
+        <div ref={counterWrapRef} className="mt-6 flex items-start gap-2">
+          <span
+            ref={counterRef}
+            className="text-[clamp(3.4rem,13vw,8rem)] leading-none tracking-tight font-bold"
           >
-            The Cool Kids
-          </h2>
-        </div>
-
-        <div ref={frameRef} className="relative mt-8 flex h-[120px] w-[120px] items-center justify-center">
-          <svg width="120" height="120" viewBox="0 0 120 120" className="absolute inset-0">
-            <circle
-              cx="60"
-              cy="60"
-              r={CIRCLE_RADIUS}
-              stroke="rgba(245,245,245,0.2)"
-              strokeWidth="1.5"
-              fill="none"
-            />
-            <circle
-              ref={progressCircleRef}
-              cx="60"
-              cy="60"
-              r={CIRCLE_RADIUS}
-              stroke="rgba(199,217,139,1)"
-              strokeWidth="2.2"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </svg>
-
-          <span ref={counterRef} className="font-heading text-[2.1rem] leading-none tracking-[0.12em]">
             00
           </span>
+          <span className="mt-3 text-base uppercase tracking-tight text-bg/75 md:text-base">%</span>
+        </div>
+
+        <div
+          ref={progressWrapRef}
+          className="mt-8 h-px w-[min(72vw,520px)] origin-center overflow-hidden bg-bg/20"
+        >
+          <span ref={progressRef} className="block h-full w-full bg-accent" />
         </div>
       </div>
     </div>

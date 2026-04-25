@@ -74,7 +74,7 @@ const Navbar = () => {
         }}
         animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
-        className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex items-center justify-between z-[100] bg-bg/80 backdrop-blur-xl"
+        className="fixed top-0 left-0 w-full px-4 md:px-8 py-4 flex items-center justify-between z-[100] bg-bg/80 backdrop-blur-xl"
         role="navigation"
         aria-label="Main Navigation"
       >
@@ -82,19 +82,21 @@ const Navbar = () => {
         {/* LEFT: MENU ICON */}
         <button
           type="button"
-          className="flex flex-col w-fit justify-center gap-1.5 md:gap-2 cursor-pointer group z-[110] scale-90 md:scale-100 p-2 -ml-2 -mt-2 h-fit"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 cursor-pointer group z-[110]"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-expanded={isMenuOpen}
           aria-controls="fullscreen-menu"
           aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
         >
           <motion.div
-            animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
-            className="w-10 md:w-12 h-0.5 bg-primary/95 origin-center will-change-transform"
+            animate={isMenuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+            transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
+            className="w-9 md:w-10 h-0.5 bg-primary/95 origin-center will-change-transform"
           />
           <motion.div
-            animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
-            className="w-10 md:w-12 h-0.5 bg-primary/95 origin-center will-change-transform"
+            animate={isMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
+            transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
+            className="w-9 md:w-10 h-0.5 bg-primary/95 origin-center will-change-transform"
           />
         </button>
 

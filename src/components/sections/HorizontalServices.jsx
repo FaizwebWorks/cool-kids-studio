@@ -177,24 +177,54 @@ function MobileCarousel() {
     const el = scrollRef.current;
     if (!el || window.innerWidth >= 768) return;
 
-    const timer = setTimeout(() => {
+    let tl;
+    let didInteract = false;
+
+    const cancelPeek = () => {
+      didInteract = true;
+      if (!tl) return;
+      tl.kill();
+      el.style.scrollSnapType = "";
+      el.style.scrollBehavior = "";
+    };
+
+    el.addEventListener("touchstart", cancelPeek, { passive: true, once: true });
+    el.addEventListener("pointerdown", cancelPeek, { passive: true, once: true });
+    el.addEventListener("wheel", cancelPeek, { passive: true, once: true });
+
+    const timer = window.setTimeout(() => {
+      if (didInteract) return;
+
       const card = el.querySelector("[data-card]");
       const cardWidth = card?.offsetWidth || 300;
+      const peekDistance = Math.min(cardWidth * 0.38, 132);
 
       el.style.scrollSnapType = "none";
-      
-      const tl = gsap.timeline({
+      el.style.scrollBehavior = "auto";
+
+      tl = gsap.timeline({
         onComplete: () => {
-          el.style.scrollSnapType = "x mandatory";
-        }
+          el.style.scrollSnapType = "";
+          el.style.scrollBehavior = "";
+        },
       });
 
-      tl.to(el, { scrollLeft: cardWidth * 0.35, duration: 0.7, ease: "power2.inOut" })
-        .to(el, { scrollLeft: 0, duration: 0.7, ease: "power2.inOut", delay: 0.3 });
-        
+      tl
+        .to(el, { scrollLeft: peekDistance, duration: 0.95, ease: "sine.inOut" })
+        .to(el, { scrollLeft: 0, duration: 0.95, ease: "sine.inOut" })
+        .to(el, { scrollLeft: peekDistance * 0.72, duration: 0.8, ease: "sine.inOut" }, "+=0.18")
+        .to(el, { scrollLeft: 0, duration: 0.9, ease: "sine.inOut" });
     }, 1200);
 
-    return () => clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+      if (tl) tl.kill();
+      el.removeEventListener("touchstart", cancelPeek);
+      el.removeEventListener("pointerdown", cancelPeek);
+      el.removeEventListener("wheel", cancelPeek);
+      el.style.scrollSnapType = "";
+      el.style.scrollBehavior = "";
+    };
   }, []);
 
   return (
