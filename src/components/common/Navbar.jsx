@@ -159,17 +159,20 @@ const Navbar = () => {
                     { Icon: InstagramLogo, label: "Instagram" },
                     { Icon: TwitterLogo, label: "Twitter" },
                     { Icon: LinkedinLogo, label: "LinkedIn" }
-                  ].map(({ Icon, label }, i) => (
-                    <motion.div
+                  ].map(({ Icon, label }, i) => {
+                    const iconElement = React.createElement(Icon, { size: 18, weight: "fill" });
+
+                    return (
+                    <motion.button
                       key={i}
+                      type="button"
                       whileHover={{ y: -5 }}
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary/95 hover:text-bg transition-colors duration-300 will-change-transform"
-                      role="button"
                       aria-label={label}
                     >
-                      <Icon size={18} weight="fill" />
-                    </motion.div>
-                  ))}
+                      {iconElement}
+                    </motion.button>
+                  )})}
                 </div>
               </div>
             </div>

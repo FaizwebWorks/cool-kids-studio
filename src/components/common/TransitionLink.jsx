@@ -1,42 +1,67 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTransition } from '../../context/TransitionContext';
+import { scrollToHashTarget } from '../../utils/hashScroll';
 
 const TransitionLink = ({ to, children, className, ...props }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { startTransition } = useTransition();
 
+  const parseTarget = (target) => {
+    if (typeof target !== 'string') return null;
+
+    if (target.startsWith('http://') || target.startsWith('https://')) {
+      return { isExternal: true };
+    }
+
+    if (target.startsWith('mailto:') || target.startsWith('tel:')) {
+      return { isExternal: true };
+    }
+
+    const [pathPart, hashPart] = target.split('#');
+    const pathname = pathPart || location.pathname;
+    const hash = hashPart ? `#${hashPart}` : '';
+
+    return {
+      isExternal: false,
+      pathname,
+      hash,
+      fullPath: `${pathname}${hash}`,
+    };
+  };
+
   const handleClick = async (e) => {
-    // If it's a hash link on the SAME page, let it behave normally (smooth scroll)
-    const isSamePageHash = to.startsWith('#') || (to.startsWith('/#') && location.pathname === '/');
-    
-    if (isSamePageHash || to === location.pathname) {
-      if (props.onClick) props.onClick(e);
+    const target = parseTarget(to);
+    if (!target) return;
+
+    if (target.isExternal) {
+      if (props.onClick) await props.onClick(e);
       return;
     }
 
-    // External links
-    if (to.startsWith('http')) {
-      if (props.onClick) props.onClick(e);
+    const isHashNavigation = Boolean(target.hash);
+    const isSamePath = target.pathname === location.pathname;
+    const isSamePathHash = isSamePath && isHashNavigation;
+    const isSameLocation = target.fullPath === `${location.pathname}${location.hash}`;
+
+    if (isSameLocation || (isSamePath && !isHashNavigation)) {
+      if (props.onClick) await props.onClick(e);
       return;
     }
 
     e.preventDefault();
-    
-    // If there's an onClick handler (like closing a menu), execute it and wait
-    if (props.onClick) {
-      await props.onClick(e);
+
+    if (props.onClick) await props.onClick(e);
+
+    if (isSamePathHash) {
+      navigate(target.fullPath);
+      await scrollToHashTarget(target.hash, { behavior: 'smooth' });
+      return;
     }
-    
-    // Trigger the exit animation
+
     await startTransition('forward');
-    
-    // Navigate to the new route
-    navigate(to);
-    
-    // Scroll to top immediately after navigation
-    window.scrollTo(0, 0);
+    navigate(target.fullPath);
   };
 
   return (

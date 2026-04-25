@@ -1,6 +1,7 @@
 import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { requestScrollTriggerRefresh } from "../../utils/scrollTriggerRefresh";
 
 const imageData = [
   {
@@ -63,9 +64,8 @@ export default function ScrollGallery() {
     const imagesRef = useRef([]);
 
     useEffect(() => {
+        const mm = gsap.matchMedia();
         const ctx = gsap.context(() => {
-            const mm = gsap.matchMedia();
-            
             mm.add({
               isDesktop: "(min-width: 768px)",
               isMobile: "(max-width: 767px)"
@@ -93,14 +93,12 @@ export default function ScrollGallery() {
             });
         }, containerRef);
 
-        // Force a refresh after a short delay to ensure Lenis and layout are ready
-        const timer = setTimeout(() => {
-            ScrollTrigger.refresh();
-        }, 1000);
+        const cleanupRefresh = requestScrollTriggerRefresh(240);
 
         return () => {
+            mm.revert();
             ctx.revert();
-            clearTimeout(timer);
+            cleanupRefresh();
         };
     }, []);
 

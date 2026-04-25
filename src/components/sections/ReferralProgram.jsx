@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Handshake, Ticket, UsersThree, Gift, ArrowRight } from 'phosphor-react';
+import { Handshake, Ticket, UsersThree, Gift } from 'phosphor-react';
 import Button from '../common/Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const steps = [
   {
@@ -27,6 +28,8 @@ const steps = [
 ];
 
 const ReferralProgram = () => {
+  const navigateToSection = useSectionNavigation();
+
   return (
     <section className="py-16 md:py-20 px-6 md:px-12 lg:px-24 bg-bg overflow-hidden relative">
       {/* Subtle Background Text */}
@@ -145,7 +148,7 @@ const ReferralProgram = () => {
             <div className="mt-16">
               <Button
                 text="Get My Referral Code"
-                onClick={() => console.log("Referral Code Requested")}
+                onClick={() => navigateToSection('contact')}
                 primary
               />
             </div>

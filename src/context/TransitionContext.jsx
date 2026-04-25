@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { requestScrollTriggerRefresh } from '../utils/scrollTriggerRefresh';
 
 const TransitionContext = createContext({
   isTransitioning: false,
@@ -13,8 +12,6 @@ export const useTransition = () => useContext(TransitionContext);
 export const TransitionProvider = ({ children }) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState('forward');
-  const location = useLocation();
-  const navigate = useNavigate();
 
   // Handle browser back/forward buttons
   useEffect(() => {
@@ -49,26 +46,16 @@ export const TransitionProvider = ({ children }) => {
 
 export const usePageTransitionStyles = () => {
   const { isTransitioning } = useTransition();
-  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (isTransitioning) {
-      setVisible(false);
-    } else {
-      // Small delay to sync with overlay lifting
-      const timer = setTimeout(() => {
-        setVisible(true);
-        // Refresh ScrollTrigger after the transform is removed
-        setTimeout(() => ScrollTrigger.refresh(), 100);
-      }, 150);
-      return () => clearTimeout(timer);
-    }
+    if (isTransitioning) return undefined;
+    return requestScrollTriggerRefresh(180);
   }, [isTransitioning]);
 
   return {
     pageContainer: {
-      opacity: visible ? 1 : 0,
-      transform: visible ? 'none' : 'scale(0.96)',
+      opacity: isTransitioning ? 0 : 1,
+      transform: isTransitioning ? 'scale(0.96)' : 'none',
       transition: 'opacity 1.2s cubic-bezier(0.76, 0, 0.24, 1), transform 1.2s cubic-bezier(0.76, 0, 0.24, 1)',
     },
   };

@@ -29,7 +29,7 @@ const Contact = () => {
       icon: <MapPin size={24} weight="duotone" />,
       label: "Location",
       value: "Navsari, Gujarat — 396445",
-      link: "https://goo.gl/maps/your-link"
+      link: "https://maps.google.com/?q=Navsari%2C+Gujarat%20396445"
     }
   ];
 
@@ -111,12 +111,12 @@ const Contact = () => {
               <Button 
                 text="WhatsApp Us" 
                 primary 
-                onClick={() => window.open('https://wa.me/917947116815', '_blank')}
+                onClick={() => window.open('https://wa.me/917947116815', '_blank', 'noopener,noreferrer')}
                 icon={<WhatsappLogo size={20} weight="duotone" />}
               />
               <Button 
                 text="Send Enquiry" 
-                onClick={() => window.location.href = 'mailto:hello@thecoolkids.studio'}
+                onClick={() => window.location.assign('mailto:hello@coolkids.com')}
                 icon={<EnvelopeSimple size={20} weight="duotone" />}
                 className="bg-primary/95 text-white hover:bg-primary/95 hover:text-white transition-all duration-500"
               />
@@ -134,28 +134,32 @@ const Contact = () => {
             >
               <div className="space-y-12">
                 {/* CONTACT ITEMS */}
-                {contactInfo.map((item, index) => (
-                  <motion.a
-                    key={index}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variants={itemVariants}
-                    className="flex items-start gap-6 group cursor-pointer"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-primary text-accent flex items-center justify-center group-hover:bg-accent group-hover:text-primary/95 transition-colors duration-500 shadow-lg shadow-primary/5">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-bold uppercase tracking-widest text-primary/40 mb-1">
-                        {item.label}
-                      </span>
-                      <span className="text-lg md:text-xl font-semibold text-primary/95 group-hover:text-accent transition-colors duration-300 underline underline-offset-4 decoration-primary/10">
-                        {item.value}
-                      </span>
-                    </div>
-                  </motion.a>
-                ))}
+                {contactInfo.map((item, index) => {
+                  const isWebLink = item.link.startsWith('http');
+
+                  return (
+                    <motion.a
+                      key={index}
+                      href={item.link}
+                      target={isWebLink ? "_blank" : undefined}
+                      rel={isWebLink ? "noopener noreferrer" : undefined}
+                      variants={itemVariants}
+                      className="flex items-start gap-6 group cursor-pointer"
+                    >
+                      <div className="w-12 h-12 rounded-2xl bg-primary text-accent flex items-center justify-center group-hover:bg-accent group-hover:text-primary/95 transition-colors duration-500 shadow-lg shadow-primary/5">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <span className="block text-[10px] font-bold uppercase tracking-widest text-primary/40 mb-1">
+                          {item.label}
+                        </span>
+                        <span className="text-lg md:text-xl font-semibold text-primary/95 group-hover:text-accent transition-colors duration-300 underline underline-offset-4 decoration-primary/10">
+                          {item.value}
+                        </span>
+                      </div>
+                    </motion.a>
+                  );
+                })}
 
                 {/* WORKING HOURS */}
                 <motion.div variants={itemVariants} className="pt-8 border-t border-primary/5">

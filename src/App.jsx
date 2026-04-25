@@ -11,6 +11,7 @@ import Navbar from './components/common/Navbar';
 import { HeroSkeleton, SectionSkeleton } from './components/common/Skeleton';
 import ScrollToTop from './utils/ScrollToTop';
 import InitialLoader from './components/common/InitialLoader';
+import { useMediaQuery } from './hooks/useMediaQuery';
 
 // Transition Components
 import PageTransition from './components/common/PageTransition';
@@ -41,25 +42,29 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 
-const LandingPage = () => (
+const LandingPage = ({ isDesktop }) => (
   <>
-    <div className="hidden md:block fixed top-0 left-0 w-full h-screen z-0">
-      <Suspense fallback={<HeroSkeleton />}>
-        <Hero />
-      </Suspense>
-    </div>
+    {isDesktop ? (
+      <>
+        <div className="fixed top-0 left-0 w-full h-screen z-0">
+          <Suspense fallback={<HeroSkeleton />}>
+            <Hero />
+          </Suspense>
+        </div>
 
-    <div className="md:hidden relative z-10">
-      <Suspense fallback={<HeroSkeleton />}>
-        <MobileHero />
-      </Suspense>
-    </div>
-
-    <div className="hidden md:block relative z-10 pointer-events-none">
-      <Suspense fallback={null}>
-        <ScrollGallery />
-      </Suspense>
-    </div>
+        <div className="relative z-10 pointer-events-none">
+          <Suspense fallback={null}>
+            <ScrollGallery />
+          </Suspense>
+        </div>
+      </>
+    ) : (
+      <div className="relative z-10">
+        <Suspense fallback={<HeroSkeleton />}>
+          <MobileHero />
+        </Suspense>
+      </div>
+    )}
 
     <div className="relative z-20">
       <Suspense fallback={<SectionSkeleton />}>
@@ -95,6 +100,7 @@ const LandingPage = () => (
 
 const App = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const handleLoaderComplete = useCallback(() => {
     setIsInitialLoading(false);
@@ -115,7 +121,7 @@ const App = () => {
 
       <TransitionLayout>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage isDesktop={isDesktop} />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />

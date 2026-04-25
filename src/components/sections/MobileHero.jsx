@@ -4,7 +4,7 @@ import Button from "../common/Button";
 
 export default function MobileHero() {
   return (
-    <section id="home" className="relative w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 overflow-hidden bg-bg">
+    <section className="relative w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 overflow-hidden bg-bg">
       <div className="w-full max-w-full overflow-hidden">
         <motion.h1
           initial={{ y: 40, opacity: 0 }}

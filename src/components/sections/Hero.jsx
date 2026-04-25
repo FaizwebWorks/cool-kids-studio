@@ -97,7 +97,7 @@ export default function Hero() {
   const fullText = textLines.join(" ").replace(/\[|\]/g, "");
 
   return (
-    <section id="home" className="h-full w-full flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg" aria-label="Welcome section">
+    <section className="h-full w-full flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden pointer-events-none bg-bg" aria-label="Welcome section">
       <h1 className="sr-only">{fullText}</h1>
       
       <div className="space-y-1 md:space-y-4 max-w-[95vw] pointer-events-auto" aria-hidden="true">

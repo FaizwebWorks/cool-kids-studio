@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Image } from 'phosphor-react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from '../common/Button';
 import { categories, projects } from '../../data/projects';
+import { requestScrollTriggerRefresh } from '../../utils/scrollTriggerRefresh';
 
 const ProjectCard = React.memo(({ project }) => (
   <motion.div
@@ -51,11 +51,7 @@ const Gallery = () => {
   }, [activeCategory, showAll]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
-    
-    return () => clearTimeout(timeout);
+    return requestScrollTriggerRefresh(80);
   }, [filteredProjects, showAll]);
 
   const handleCategoryChange = useCallback((cat) => {

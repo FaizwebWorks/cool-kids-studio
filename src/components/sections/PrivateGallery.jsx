@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, DownloadSimple, DeviceMobile, Image, Clock } from 'phosphor-react';
 import Button from '../common/Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const features = [
   {
@@ -32,6 +33,8 @@ const features = [
 ];
 
 const PrivateGallery = () => {
+  const navigateToSection = useSectionNavigation();
+
   return (
     <section className="pb-16 md:pt-5 md:pb-20 px-6 md:px-12 lg:px-24 bg-bg overflow-hidden relative">
       {/* Background Decorative Element */}
@@ -84,7 +87,7 @@ const PrivateGallery = () => {
 
               <Button 
                 text="See Sample Gallery"
-                onClick={() => window.location.href = "#"}
+                onClick={() => navigateToSection('gallery')}
                 primary
               />
             </motion.div>

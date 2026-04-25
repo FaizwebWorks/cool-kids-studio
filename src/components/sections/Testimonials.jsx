@@ -2,6 +2,7 @@ import React from 'react';
 import { Quotes, Star } from 'phosphor-react';
 import { motion } from 'framer-motion';
 import Button from '../common/Button';
+import { useSectionNavigation } from '../../hooks/useSectionNavigation';
 
 const testimonials = [
   {
@@ -89,40 +90,10 @@ const TestimonialCard = ({ testimonial }) => (
 );
 
 const Testimonials = () => {
+  const navigateToSection = useSectionNavigation();
+
   return (
     <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-bg overflow-hidden relative">
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        .marquee-container {
-          display: flex;
-          width: max-content;
-          gap: 0.5rem;
-        }
-        .marquee-left {
-          animation: scroll-left 50s linear infinite;
-        }
-        .marquee-right {
-          animation: scroll-right 50s linear infinite;
-        }
-        .marquee-container:hover {
-          animation-play-state: paused;
-        }
-        @keyframes scroll-left {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scroll-right {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .fade-left {
-          background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
-        }
-        .fade-right {
-          background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
-        }
-      `}} />
-
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
         <div className="mb-12 md:mb-20 relative">
@@ -172,12 +143,12 @@ const Testimonials = () => {
             <svg viewBox="0 0 100 100" className="w-28 h-28 opacity-10">
               <defs>
                 <path
-                  id="circlePath"
+                  id="testimonialsCirclePath"
                   d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
                 />
               </defs>
               <text className="text-[10px] font-bold uppercase tracking-[0.2em] fill-primary">
-                <textPath xlinkHref="#circlePath">
+                <textPath href="#testimonialsCirclePath">
                   Certified Love • Certified Love • Certified Love •
                 </textPath>
               </text>
@@ -216,7 +187,7 @@ const Testimonials = () => {
           </p>
           <Button
             text="Get Custom Quote"
-            onClick={() => window.location.href = "mailto:hello@coolkids.com"}
+            onClick={() => navigateToSection('contact')}
             primary
           />
         </div>

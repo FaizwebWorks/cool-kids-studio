@@ -2,6 +2,8 @@ import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
 import Button from "../common/Button";
 import { services } from "../../data/services";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { requestScrollTriggerRefresh } from "../../utils/scrollTriggerRefresh";
 
 const ServiceCard = memo(({ service, index }) => (
   <div className="w-screen h-screen flex items-center justify-center px-12 md:px-20 lg:px-32 shrink-0">
@@ -88,8 +90,12 @@ export default function HorizontalServices() {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const titleRef = useRef(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
+    if (!isDesktop) return undefined;
+
+    const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       // Title Animation
       if (titleRef.current) {
@@ -107,10 +113,8 @@ export default function HorizontalServices() {
       }
 
       // Horizontal Scroll (Desktop Only)
-      const mm = gsap.matchMedia();
       mm.add("(min-width: 768px)", () => {
         if (containerRef.current) {
-          // Use a slight delay to ensure widths are calculated after initial render
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -131,22 +135,22 @@ export default function HorizontalServices() {
       });
     }, sectionRef);
 
-    // Final refresh to catch any missed layout changes
-    const timer = setTimeout(() => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        ScrollTrigger.refresh();
-      });
-    }, 1500);
+    const cleanupRefresh = requestScrollTriggerRefresh(260);
 
     return () => {
+      mm.revert();
       ctx.revert();
-      clearTimeout(timer);
+      cleanupRefresh();
     };
-  }, []);
+  }, [isDesktop]);
+
+  if (!isDesktop) {
+    return <MobileCarousel />;
+  }
 
   return (
     <>
-      <div ref={titleRef} id="services" className="md:py-16 hidden md:block text-center bg-bg">
+      <div ref={titleRef} id="services" className="md:py-16 text-center bg-bg">
         <h2 className="text-6xl font-heading text-primary/95 uppercase">
           Our Services
         </h2>
@@ -155,15 +159,13 @@ export default function HorizontalServices() {
         </p>
       </div>
 
-      <section ref={sectionRef} className="hidden md:block relative bg-bg overflow-hidden">
+      <section ref={sectionRef} className="relative bg-bg overflow-hidden">
         <div ref={containerRef} className="flex h-screen will-change-transform">
           {services.map((service, i) => (
             <ServiceCard key={i} service={service} index={i} />
           ))}
         </div>
       </section>
-
-      <MobileCarousel />
     </>
   );
 }
@@ -196,7 +198,7 @@ function MobileCarousel() {
   }, []);
 
   return (
-    <div id="services-mobile" className="md:hidden bg-bg pb-16">
+    <div id="services" className="bg-bg pb-16">
       <div className="px-6 pt-10 pb-3">
         <h2 className="text-4xl font-heading text-primary/95 uppercase">
           Our Services

@@ -9,6 +9,7 @@ import {
   Image as ImageIcon,
 } from "phosphor-react";
 import Button from "../common/Button";
+import { requestScrollTriggerRefresh } from "../../utils/scrollTriggerRefresh";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -120,11 +121,14 @@ export default function HowItWorks() {
         });
       });
 
-      // 🔥 force refresh after layout settle
-      ScrollTrigger.refresh();
     }, containerRef);
 
-    return () => ctx.revert();
+    const cleanupRefresh = requestScrollTriggerRefresh(180);
+
+    return () => {
+      ctx.revert();
+      cleanupRefresh();
+    };
   }, [steps]);
 
   return (

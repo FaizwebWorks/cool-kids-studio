@@ -50,7 +50,7 @@ export const useLenis = () => {
     }
   }, [isTransitioning]);
 
-  return lenisRef.current;
+  return lenisRef;
 };
 
 // Component version for root integration
