@@ -102,7 +102,7 @@ const InitialLoader = ({ onComplete }) => {
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-bg">
         <p
           ref={captionRef}
-          className="font-heading text-sm uppercase tracking-[0.35em] text-bg/70 opacity-0 translate-y-3 md:text-base"
+          className="font-heading text-sm uppercase tracking-tight text-bg/70 opacity-0 translate-y-3 md:text-base"
         >
           The Cool Kids
         </p>
@@ -114,7 +114,7 @@ const InitialLoader = ({ onComplete }) => {
           >
             00
           </span>
-          <span className="mt-3 text-xs uppercase tracking-[0.35em] text-bg/70 md:text-sm">%</span>
+          <span className="mt-3 text-base uppercase tracking-tight text-bg/70 md:text-base">%</span>
         </div>
 
         <div className="mt-8 h-px w-[min(72vw,520px)] overflow-hidden bg-bg/20">
