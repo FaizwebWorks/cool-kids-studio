@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useCallback, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/common/Navbar';
 import { HeroSkeleton, SectionSkeleton } from './components/common/Skeleton';
 import ScrollToTop from './utils/ScrollToTop';
+import InitialLoader from './components/common/InitialLoader';
 
 // Transition Components
 import PageTransition from './components/common/PageTransition';
@@ -93,8 +94,16 @@ const LandingPage = () => (
 );
 
 const App = () => {
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  const handleLoaderComplete = useCallback(() => {
+    setIsInitialLoading(false);
+  }, []);
+
   return (
     <main className="bg-bg relative min-h-screen overflow-x-hidden">
+      {isInitialLoading && <InitialLoader onComplete={handleLoaderComplete} />}
+
       <LenisInitializer />
       <ScrollTriggerManager />
       <PageTransition />
