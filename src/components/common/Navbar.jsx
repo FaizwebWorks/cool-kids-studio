@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { FacebookLogo, InstagramLogo, TwitterLogo, LinkedinLogo } from 'phosphor-react';
 import { useClock } from '../../hooks/useClock';
@@ -18,12 +18,32 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { scrollY } = useScroll();
+  const closeResolverRef = useRef(null);
 
-  const closeMenuAndDelay = async () => {
+  const resolvePendingClose = useCallback(() => {
+    if (!closeResolverRef.current) return;
+    closeResolverRef.current();
+    closeResolverRef.current = null;
+  }, []);
+
+  const closeMenuBeforeNavigate = useCallback(async () => {
+    if (!isMenuOpen) return;
+
     setIsMenuOpen(false);
-    // Wait for the menu's slide-up animation to complete (matching its 0.8s duration)
-    return new Promise((resolve) => setTimeout(resolve, 800));
-  };
+
+    await new Promise((resolve) => {
+      closeResolverRef.current = resolve;
+
+      // Fallback: avoid hanging navigation if exit callback does not fire.
+      setTimeout(() => {
+        if (closeResolverRef.current !== resolve) return;
+        closeResolverRef.current = null;
+        resolve();
+      }, 900);
+    });
+  }, [isMenuOpen]);
+
+  useEffect(() => () => resolvePendingClose(), [resolvePendingClose]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
@@ -82,7 +102,7 @@ const Navbar = () => {
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
           <TransitionLink 
             to="/" 
-            onClick={closeMenuAndDelay}
+            onClick={closeMenuBeforeNavigate}
             className="text-xl md:text-3xl font-semibold tracking-tighter text-primary/95"
             aria-label="The Cool Kids - Home"
           >
@@ -97,7 +117,7 @@ const Navbar = () => {
       </motion.nav>
 
       {/* FULLSCREEN MENU OVERLAY */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" onExitComplete={resolvePendingClose}>
         {isMenuOpen && (
           <motion.div
             id="fullscreen-menu"
@@ -116,7 +136,7 @@ const Navbar = () => {
                 >
                   <TransitionLink
                     to={link.href}
-                    onClick={closeMenuAndDelay}
+                    onClick={closeMenuBeforeNavigate}
                     className="relative text-5xl sm:text-5xl md:text-6xl font-semibold font-heading text-primary/95 inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
                   >
                     {/* HOVER BACKGROUND */}
