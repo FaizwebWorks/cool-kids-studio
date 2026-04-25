@@ -19,6 +19,12 @@ const Navbar = () => {
   const [isHidden, setIsHidden] = useState(false);
   const { scrollY } = useScroll();
 
+  const closeMenuAndDelay = async () => {
+    setIsMenuOpen(false);
+    // Wait for the menu's slide-up animation to complete (matching its 0.8s duration)
+    return new Promise((resolve) => setTimeout(resolve, 800));
+  };
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
     if (latest > previous && latest > 150) {
@@ -29,19 +35,19 @@ const Navbar = () => {
   });
 
   const menuVariants = {
-    closed: { 
-      y: "-100%", 
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+    closed: {
+      y: "-100%",
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
     },
-    open: { 
-      y: 0, 
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+    open: {
+      y: 0,
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
     }
   };
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         variants={{
           visible: { y: 0 },
           hidden: { y: "-100%" }
@@ -52,9 +58,9 @@ const Navbar = () => {
         role="navigation"
         aria-label="Main Navigation"
       >
-        
+
         {/* LEFT: MENU ICON */}
-        <button 
+        <button
           type="button"
           className="flex flex-col w-fit justify-center gap-1.5 md:gap-2 cursor-pointer group z-[110] scale-90 md:scale-100 p-2 -ml-2 -mt-2 h-fit"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -62,11 +68,11 @@ const Navbar = () => {
           aria-controls="fullscreen-menu"
           aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
         >
-          <motion.div 
+          <motion.div
             animate={isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
             className="w-10 md:w-12 h-0.5 bg-primary/95 origin-center will-change-transform"
           />
-          <motion.div 
+          <motion.div
             animate={isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
             className="w-10 md:w-12 h-0.5 bg-primary/95 origin-center will-change-transform"
           />
@@ -76,14 +82,13 @@ const Navbar = () => {
         <div className="absolute left-1/2 -translate-x-1/2 z-[110]">
           <TransitionLink 
             to="/" 
-            onClick={() => setIsMenuOpen(false)}
+            onClick={closeMenuAndDelay}
             className="text-xl md:text-3xl font-semibold tracking-tighter text-primary/95"
             aria-label="The Cool Kids - Home"
           >
             The Cool Kids.
           </TransitionLink>
         </div>
-
         {/* RIGHT: LOCATION & TIME */}
         <div className="hidden sm:flex flex-col items-end text-[10px] md:text-sm font-medium tracking-wider leading-3 md:leading-4 text-primary/95 z-[110]" aria-live="polite">
           <span>GUJARAT, INDIA</span>
@@ -109,9 +114,9 @@ const Navbar = () => {
                   key={link.text}
                   className="overflow-hidden group relative"
                 >
-                  <TransitionLink 
-                    to={link.href} 
-                    onClick={() => setIsMenuOpen(false)}
+                  <TransitionLink
+                    to={link.href}
+                    onClick={closeMenuAndDelay}
                     className="relative text-5xl sm:text-5xl md:text-6xl font-semibold font-heading text-primary/95 inline-block px-2 md:px-4 py-1 md:py-2 z-10 transition-colors duration-300"
                   >
                     {/* HOVER BACKGROUND */}
@@ -126,12 +131,12 @@ const Navbar = () => {
             <div className="w-full md:w-1/2 flex flex-col items-center md:items-end order-2 gap-6 md:gap-10">
               {/* FEATURED IMAGE WITH FRAME */}
               <div className="w-full sm:max-w-sm md:max-w-md p-2 md:p-2.5 bg-[#E2E2E2] rounded-2xl md:rounded-3xl shadow-sm">
-                <div 
+                <div
                   className="w-full aspect-[16/9] rounded-xl md:rounded-2xl overflow-hidden"
                 >
-                  <img 
-                    src="/images/about.webp" 
-                    alt="Our studio space" 
+                  <img
+                    src="/images/about.webp"
+                    alt="Our studio space"
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
