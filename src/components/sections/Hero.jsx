@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
+import { useTransition } from "../../context/TransitionContext";
 
 const textLines = [
   "FROM TINY [giggles] TO BIG [milestones]",
@@ -62,6 +64,14 @@ const AnimatedPart = React.memo(({ part, partIdx, lineIdx, staggerOffset }) => {
 AnimatedPart.displayName = 'AnimatedPart';
 
 export default function Hero() {
+  const navigate = useNavigate();
+  const { startTransition } = useTransition();
+
+  const handleBookSession = async () => {
+    await startTransition("forward");
+    navigate("/book-session");
+  };
+
   const renderedContent = useMemo(() => {
     return textLines.map((line, lineIdx) => {
       const parts = line.split(/(\[.*?\])/);
@@ -115,7 +125,7 @@ export default function Hero() {
       </motion.p>
 
       <div className="flex flex-col items-center sm:flex-row gap-4 md:gap-5 mt-8 sm:mt-14 pointer-events-auto w-full sm:w-auto px-0 sm:px-0">
-        <Button text="Book Your Session" primary />
+        <Button text="Book Your Session" primary onClick={handleBookSession} />
       </div>
     </section>
   );

@@ -9,7 +9,9 @@ const Button = ({
   icon, 
   onClick, 
   className = "",
-  impact = true 
+  impact = true,
+  type = "button",
+  disabled = false,
 }) => {
   const [ripples, setRipples] = useState([]);
   const characters = Array.from(text);
@@ -29,11 +31,14 @@ const Button = ({
 
   return (
     <motion.button
+      type={type}
       whileHover="hover"
       whileTap="tap"
       onClick={handleClick}
+      disabled={disabled}
       className={`
         relative flex items-center justify-center gap-3 px-8 py-4 rounded-full overflow-hidden border transition-colors duration-300 group cursor-pointer
+        disabled:cursor-not-allowed disabled:opacity-60
         ${primary
           ? "bg-accent text-primary/95 border-accent hover:bg-accent-hover hover:border-accent-hover"
           : "bg-bg text-primary/95 border-primary/10 hover:bg-[#eaeaea]"

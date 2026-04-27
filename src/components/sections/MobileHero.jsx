@@ -1,8 +1,18 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
+import { useTransition } from "../../context/TransitionContext";
 
 export default function MobileHero() {
+  const navigate = useNavigate();
+  const { startTransition } = useTransition();
+
+  const handleBookSession = async () => {
+    await startTransition("forward");
+    navigate("/book-session");
+  };
+
   return (
     <section className="relative w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 overflow-hidden bg-bg">
       <div className="w-full max-w-full overflow-hidden">
@@ -37,7 +47,7 @@ export default function MobileHero() {
         transition={{ delay: 0.7, duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
         className="flex flex-col items-center gap-4 mt-10 w-full"
       >
-        <Button text="Book Your Session" primary />
+        <Button text="Book Your Session" primary onClick={handleBookSession} />
       </motion.div>
     </section>
   );
