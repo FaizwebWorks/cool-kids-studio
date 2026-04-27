@@ -9,7 +9,7 @@ export const services = [
     title: "Maternity",
     subtitle: "Glow Like You Mean It",
     desc: "You’re creating life. That deserves more than just phone photos. Elegant, powerful, and zero awkward posing.",
-    img: "/images/about.webp",
+    img: "/images/maternity2.webp",
   },
   {
     title: "Birthday",
@@ -27,6 +27,6 @@ export const services = [
     title: "Portrait",
     subtitle: "Just Be You",
     desc: "No fake smiles. No stiffness. Just real expressions, real vibe, real you.",
-    img: "/images/studio.webp",
+    img: "/images/portrait1.webp",
   },
 ];

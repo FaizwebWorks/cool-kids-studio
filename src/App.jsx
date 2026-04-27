@@ -41,6 +41,7 @@ const Footer = lazy(() => import('./components/common/Footer'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
+const BookSession = lazy(() => import('./pages/BookSession'));
 
 const LandingPage = ({ isDesktop }) => (
   <>
@@ -122,6 +123,7 @@ const App = () => {
       <TransitionLayout>
         <Routes>
           <Route path="/" element={<LandingPage isDesktop={isDesktop} />} />
+          <Route path="/book-session" element={<BookSession />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
