@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
 
 export class BookingApiError extends Error {
   constructor(message, status) {
@@ -54,6 +54,26 @@ export const createPublicBooking = async (booking) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(booking),
+  });
+
+  const payload = await parseResponse(response);
+  return payload.data;
+};
+
+export const getPublicServices = async ({ signal } = {}) => {
+  const response = await fetch(`${API_BASE_URL}/services`, {
+    method: 'GET',
+    signal,
+  });
+
+  const payload = await parseResponse(response);
+  return payload.data;
+};
+
+export const getPublicGallery = async ({ signal } = {}) => {
+  const response = await fetch(`${API_BASE_URL}/gallery`, {
+    method: 'GET',
+    signal,
   });
 
   const payload = await parseResponse(response);

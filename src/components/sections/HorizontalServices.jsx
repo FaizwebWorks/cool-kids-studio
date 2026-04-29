@@ -1,11 +1,25 @@
-import { useEffect, useRef, memo } from "react";
+import { useEffect, useMemo, useRef, useState, memo } from "react";
 import gsap from "gsap";
 import Button from "../common/Button";
 import { services } from "../../data/services";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { requestScrollTriggerRefresh } from "../../utils/scrollTriggerRefresh";
+import { getPublicServices } from "../../services/bookingApi";
 
-const ServiceCard = memo(({ service, index }) => (
+const normalizeService = (service) => ({
+  title: service.title || service.name || "",
+  subtitle: service.subtitle || "",
+  desc: service.desc || service.description || "",
+  img: service.img || service.image || service.coverImage || "/images/img2.webp",
+  startingPrice: service.startingPrice || service.price || "N/A",
+});
+
+const formatPrice = (value) => {
+  const price = Number(value || 0);
+  return new Intl.NumberFormat("en-IN").format(price);
+};
+
+const ServiceCard = memo(({ service, index, totalServices }) => (
   <div className="w-screen h-screen flex items-center justify-center px-12 md:px-20 lg:px-32 shrink-0">
     <div className="w-1/2 flex justify-center">
       <div className="relative">
@@ -18,7 +32,7 @@ const ServiceCard = memo(({ service, index }) => (
           />
         </div>
         <div className="absolute -bottom-4 -right-4 bg-white px-6 py-3 rounded-full shadow-lg">
-          <span className="text-sm font-medium text-primary/95">Starting ₹5,999</span>
+          <span className="text-sm font-medium text-primary/95">Starting ₹{formatPrice(service.startingPrice)}</span>
         </div>
       </div>
     </div>
@@ -42,7 +56,7 @@ const ServiceCard = memo(({ service, index }) => (
       </p>
 
       <div className="flex gap-2 mt-8">
-        {services.map((_, dotI) => (
+        {Array.from({ length: totalServices }).map((_, dotI) => (
           <div
             key={dotI}
             className={`w-2 h-2 rounded-full transition-colors duration-300 ${dotI === index ? 'bg-accent' : 'bg-border'}`}
@@ -91,6 +105,29 @@ export default function HorizontalServices() {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [apiServices, setApiServices] = useState(null);
+  const activeServices = useMemo(() => (
+    apiServices?.length ? apiServices : services.map(normalizeService)
+  ), [apiServices]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getPublicServices({ signal: controller.signal })
+      .then((items) => {
+        if (Array.isArray(items) && items.length > 0) {
+          setApiServices(items.map(normalizeService));
+          requestScrollTriggerRefresh(180);
+        }
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          setApiServices(null);
+        }
+      });
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     if (!isDesktop) return undefined;
@@ -142,10 +179,10 @@ export default function HorizontalServices() {
       ctx.revert();
       cleanupRefresh();
     };
-  }, [isDesktop]);
+  }, [activeServices.length, isDesktop]);
 
   if (!isDesktop) {
-    return <MobileCarousel />;
+    return <MobileCarousel servicesList={activeServices} />;
   }
 
   return (
@@ -161,8 +198,8 @@ export default function HorizontalServices() {
 
       <section ref={sectionRef} className="relative bg-bg overflow-hidden">
         <div ref={containerRef} className="flex h-screen will-change-transform">
-          {services.map((service, i) => (
-            <ServiceCard key={i} service={service} index={i} />
+          {activeServices.map((service, i) => (
+            <ServiceCard key={`${service.title}-${i}`} service={service} index={i} totalServices={activeServices.length} />
           ))}
         </div>
       </section>
@@ -170,7 +207,7 @@ export default function HorizontalServices() {
   );
 }
 
-function MobileCarousel() {
+function MobileCarousel({ servicesList }) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -249,9 +286,9 @@ function MobileCarousel() {
         role="region"
         aria-label="Services carousel"
       >
-        {services.map((s, i) => (
+        {servicesList.map((s, i) => (
           <div
-            key={i}
+            key={`${s.title}-${i}`}
             data-card
             className="snap-center shrink-0 w-[85%] mr-4"
           >

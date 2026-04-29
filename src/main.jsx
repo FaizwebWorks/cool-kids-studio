@@ -4,12 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import { TransitionProvider } from './context/TransitionContext'
+import { AdminAuthProvider } from './context/AdminAuthContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <TransitionProvider>
-        <App />
+        <AdminAuthProvider>
+          <App />
+        </AdminAuthProvider>
       </TransitionProvider>
     </BrowserRouter>
   </StrictMode>,
