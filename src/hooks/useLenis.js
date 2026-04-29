@@ -17,6 +17,7 @@ export const useLenis = () => {
       wheelMultiplier: 1,
       touchMultiplier: 1.5,
       anchors: true,
+      prevent: (node) => node.closest('[data-lenis-prevent]'),
     });
 
     lenisRef.current = lenis;

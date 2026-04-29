@@ -4,6 +4,16 @@ import { Image } from 'phosphor-react';
 import Button from '../common/Button';
 import { categories, projects } from '../../data/projects';
 import { requestScrollTriggerRefresh } from '../../utils/scrollTriggerRefresh';
+import { getPublicGallery } from '../../services/bookingApi';
+
+const gallerySpanPattern = [
+  "md:col-span-2 md:row-span-2",
+  "md:col-span-1 md:row-span-1",
+  "md:col-span-1 md:row-span-1",
+  "md:col-span-1 md:row-span-2",
+  "md:col-span-2 md:row-span-1",
+  "md:col-span-1 md:row-span-1",
+];
 
 const ProjectCard = React.memo(({ project }) => (
   <motion.div
@@ -41,14 +51,57 @@ ProjectCard.displayName = 'ProjectCard';
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [showAll, setShowAll] = useState(false);
+  const [galleryItems, setGalleryItems] = useState(projects);
+  const [galleryCategories, setGalleryCategories] = useState(categories);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadGallery = async () => {
+      try {
+        const data = await getPublicGallery();
+        if (!isMounted) return;
+
+        const nextItems = (data?.items || []).map((item, index) => ({
+          id: item._id || item.id || item.slug || `${item.title}-${index}`,
+          title: item.title || 'Untitled',
+          image: item.image,
+          categories: Array.isArray(item.categories) ? item.categories : [],
+          category: Array.isArray(item.categories) ? item.categories[0] || 'Gallery' : 'Gallery',
+          span: gallerySpanPattern[index % gallerySpanPattern.length],
+        })).filter((item) => item.image);
+
+        setGalleryItems(nextItems);
+
+        if (Array.isArray(data?.categories) && data.categories.length > 0) {
+          setGalleryCategories(data.categories.includes('All') ? data.categories : ['All', ...data.categories]);
+        }
+      } catch {
+        if (isMounted) {
+          setGalleryItems(projects);
+          setGalleryCategories(categories);
+        }
+      }
+    };
+
+    loadGallery();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const filteredProjects = useMemo(() => {
     const filtered = activeCategory === "All"
-      ? projects
-      : projects.filter(p => p.category === activeCategory);
+      ? galleryItems
+      : galleryItems.filter((project) => (
+        Array.isArray(project.categories)
+          ? project.categories.includes(activeCategory)
+          : project.category === activeCategory
+      ));
     
     return activeCategory === "All" && !showAll ? filtered.slice(0, 11) : filtered;
-  }, [activeCategory, showAll]);
+  }, [activeCategory, galleryItems, showAll]);
 
   useEffect(() => {
     return requestScrollTriggerRefresh(80);
@@ -97,7 +150,7 @@ const Gallery = () => {
 
           <div className="relative">
             <nav className="flex overflow-x-auto md:overflow-visible flex-nowrap md:flex-wrap gap-2 md:pb-2 pb-4 no-scrollbar [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:[mask-image:none]">
-              {categories.map((cat) => (
+              {galleryCategories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => handleCategoryChange(cat)}

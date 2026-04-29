@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useCallback, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -42,6 +42,7 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 const BookSession = lazy(() => import('./pages/BookSession'));
+const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 
 const LandingPage = ({ isDesktop }) => (
   <>
@@ -102,6 +103,8 @@ const LandingPage = ({ isDesktop }) => (
 const App = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const location = useLocation();
+  const isDashboardRoute = location.pathname.startsWith('/dashboard');
 
   const handleLoaderComplete = useCallback(() => {
     setIsInitialLoading(false);
@@ -109,21 +112,22 @@ const App = () => {
 
   return (
     <main className="bg-bg relative min-h-screen overflow-x-hidden">
-      {isInitialLoading && <InitialLoader onComplete={handleLoaderComplete} />}
+      {isInitialLoading && !isDashboardRoute && <InitialLoader onComplete={handleLoaderComplete} />}
 
-      <LenisInitializer />
-      <ScrollTriggerManager />
-      <PageTransition />
+      {!isDashboardRoute && <LenisInitializer />}
+      {!isDashboardRoute && <ScrollTriggerManager />}
+      {!isDashboardRoute && <PageTransition />}
       <ScrollToTop />
       
       <div id="home" className="absolute top-0 left-0 w-px h-px opacity-0" aria-hidden="true" />
 
-      <Navbar />
+      {!isDashboardRoute && <Navbar />}
 
       <TransitionLayout>
         <Routes>
           <Route path="/" element={<LandingPage isDesktop={isDesktop} />} />
           <Route path="/book-session" element={<BookSession />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
